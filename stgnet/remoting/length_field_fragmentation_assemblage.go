@@ -28,7 +28,7 @@ func NewLengthFieldFragmentationAssemblage(maxFrameLength, lengthFieldOffset, le
 	}
 }
 
-func (lfpfa *LengthFieldFragmentationAssemblage) Pack(addr string, buffer []byte) (bufs []*bytes.Buffer, e error) {
+func (lfpfa *LengthFieldFragmentationAssemblage) Pack(addr string, buffer []byte, fn func(*bytes.Buffer)) (e error) {
 	var (
 		length = len(buffer)
 	)
@@ -57,10 +57,10 @@ func (lfpfa *LengthFieldFragmentationAssemblage) Pack(addr string, buffer []byte
 		return
 	}
 
-	return lfpfa.pack(addr, buf)
+	return lfpfa.pack(addr, buf, fn)
 }
 
-func (lfpfa *LengthFieldFragmentationAssemblage) pack(addr string, buf *bytes.Buffer) (bufs []*bytes.Buffer, e error) {
+func (lfpfa *LengthFieldFragmentationAssemblage) pack(addr string, buf *bytes.Buffer, fn func(*bytes.Buffer)) (e error) {
 	var (
 		start        int
 		end          int
@@ -102,11 +102,12 @@ func (lfpfa *LengthFieldFragmentationAssemblage) pack(addr string, buf *bytes.Bu
 		}
 
 		// 报文长度足够，读取报文并调整buffer
-		rbuf, e := lfpfa.adjustBuffer(addr, buf, packetLength+end)
+		nbuf, e := lfpfa.adjustBuffer(addr, buf, packetLength+end)
 		if e != nil {
 			break
 		}
-		bufs = append(bufs, rbuf)
+		//bufs = append(bufs, nbuf)
+		fn(nbuf)
 	}
 
 	return

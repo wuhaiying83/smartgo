@@ -3,5 +3,5 @@ package remoting
 import "bytes"
 
 type PacketFragmentationAssembler interface {
-	Pack(addr string, buffer []byte) (bufs []*bytes.Buffer, e error)
+	Pack(addr string, buffer []byte, fn func(*bytes.Buffer)) error
 }

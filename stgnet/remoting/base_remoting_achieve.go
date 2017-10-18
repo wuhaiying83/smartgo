@@ -58,23 +58,19 @@ func (ra *BaseRemotingAchieve) processReceived(buffer []byte, ctx netm.Context) 
 
 	if ra.fragmentationActuator != nil {
 		// 粘包处理，之后使用队列缓存
-		bufs, err := ra.fragmentationActuator.Pack(ctx.Addr(), buffer)
+		err := ra.fragmentationActuator.Pack(ctx.Addr(), buffer, func(msg *bytes.Buffer) {
+			// 开启gorouting处理响应
+			ra.startGoRoutine(func() {
+				ra.processMessageReceived(ctx, msg)
+			})
+		})
 		if err != nil {
 			logger.Fatalf("processReceived unPack buffer failed: %v", err)
 			return
 		}
-
-		for _, buf := range bufs {
-			// 解决线程数据安全问题
-			tbuf := buf
-			// 开启gorouting处理响应
-			ra.startGoRoutine(func() {
-				ra.processMessageReceived(ctx, tbuf)
-			})
-		}
 	} else {
 		// 不使用粘包
-		buf := bytes.NewBuffer([]byte{})
+		buf := &bytes.Buffer{}
 		_, err := buf.Write(buffer)
 		// 安全考虑进行拷贝数据，之后使用队列缓存
 		if err != nil {
