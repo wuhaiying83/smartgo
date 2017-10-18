@@ -7,53 +7,7 @@ import (
 	"testing"
 )
 
-func TestPackFull(t *testing.T) {
-	var (
-		addr                               = "192.168.0.1:10000"
-		lengthFieldFragmentationAssemblage = NewLengthFieldFragmentationAssemblage(8388608, 0, 4, 0)
-	)
-
-	buffer := prepareFullBuffer()
-
-	bufs, e := lengthFieldFragmentationAssemblage.Pack(addr, buffer)
-	if e != nil {
-		t.Errorf("Test failed: %s", e)
-	}
-
-	if len(bufs) != 1 {
-		t.Errorf("Test failed: return buf size[%d] incorrect, expect[%d]", len(bufs), 1)
-	}
-
-	buf := bufs[0]
-	if !reflect.DeepEqual(buf.Bytes(), buffer) {
-		t.Errorf("Test failed: return buf%v incorrect, expect%v", buf.Bytes(), buffer)
-	}
-}
-
-func TestPackOffsetFull(t *testing.T) {
-	var (
-		addr                               = "192.168.0.1:10000"
-		lengthFieldFragmentationAssemblage = NewLengthFieldFragmentationAssemblage(8388608, 0, 4, 4)
-	)
-
-	buffer := prepareFullBuffer()
-
-	bufs, e := lengthFieldFragmentationAssemblage.Pack(addr, buffer)
-	if e != nil {
-		t.Errorf("Test failed: %s", e)
-	}
-
-	if len(bufs) != 1 {
-		t.Errorf("Test failed: return buf size[%d] incorrect, expect[%d]", len(bufs), 1)
-	}
-
-	buf := bufs[0]
-	if !reflect.DeepEqual(buf.Bytes(), buffer[4:]) {
-		t.Errorf("Test failed: return buf%v incorrect, expect%v", buf.Bytes(), buffer[4:])
-	}
-}
-
-func prepareFullBuffer() []byte {
+func preparePackFullBuffer() []byte {
 	var (
 		buf          = bytes.NewBuffer([]byte{})
 		length int32 = 10
@@ -64,75 +18,53 @@ func prepareFullBuffer() []byte {
 	return buf.Bytes()
 }
 
-func TestPackPartOf(t *testing.T) {
+func TestPackFull(t *testing.T) {
 	var (
-		addr                               = "192.168.0.1:10000"
+		size                               int
 		lengthFieldFragmentationAssemblage = NewLengthFieldFragmentationAssemblage(8388608, 0, 4, 0)
 	)
 
-	buffer := preparePartOfOneBuffer()
-	bufs, e := lengthFieldFragmentationAssemblage.Pack(addr, buffer)
+	buffer := preparePackFullBuffer()
+
+	e := lengthFieldFragmentationAssemblage.Pack(buffer, func(msg []byte) {
+		size++
+		if !reflect.DeepEqual(msg, buffer) {
+			t.Errorf("Test failed: return buf%v incorrect, expect%v", msg, buffer)
+		}
+	})
 	if e != nil {
 		t.Errorf("Test failed: %s", e)
 	}
 
-	if len(bufs) != 0 {
-		t.Errorf("Test failed: return buf size[%d] incorrect, expect[%d]", len(bufs), 0)
-	}
-	bufferHeader := buffer
-
-	buffer = preparePartOfTwoBuffer()
-	bufs, e = lengthFieldFragmentationAssemblage.Pack(addr, buffer)
-	if e != nil {
-		t.Errorf("Test failed: %s", e)
-	}
-
-	if len(bufs) != 1 {
-		t.Errorf("Test failed: return buf size[%d] incorrect, expect[%d]", len(bufs), 1)
-	}
-
-	buf := bufs[0]
-	allBytes := append(bufferHeader, buffer...)
-	if !reflect.DeepEqual(buf.Bytes(), allBytes) {
-		t.Errorf("Test failed: return buf%v incorrect, expect%v", buf.Bytes(), allBytes)
+	if size != 1 {
+		t.Errorf("Test failed: return buf size[%d] incorrect, expect[%d]", size, 1)
 	}
 }
 
-func TestPackOffsetPartOf(t *testing.T) {
+func TestPackOffsetFull(t *testing.T) {
 	var (
-		addr                               = "192.168.0.1:10000"
+		size                               int
 		lengthFieldFragmentationAssemblage = NewLengthFieldFragmentationAssemblage(8388608, 0, 4, 4)
 	)
 
-	buffer := preparePartOfOneBuffer()
-	bufs, e := lengthFieldFragmentationAssemblage.Pack(addr, buffer)
+	buffer := preparePackFullBuffer()
+
+	e := lengthFieldFragmentationAssemblage.Pack(buffer, func(msg []byte) {
+		size++
+		if !reflect.DeepEqual(msg, buffer[4:]) {
+			t.Errorf("Test failed: return buf%v incorrect, expect%v", msg, buffer[4:])
+		}
+	})
 	if e != nil {
 		t.Errorf("Test failed: %s", e)
 	}
 
-	if len(bufs) != 0 {
-		t.Errorf("Test failed: return buf size[%d] incorrect, expect[%d]", len(bufs), 0)
-	}
-	bufferHeader := buffer[4:]
-
-	buffer = preparePartOfTwoBuffer()
-	bufs, e = lengthFieldFragmentationAssemblage.Pack(addr, buffer)
-	if e != nil {
-		t.Errorf("Test failed: %s", e)
-	}
-
-	if len(bufs) != 1 {
-		t.Errorf("Test failed: return buf size[%d] incorrect, expect[%d]", len(bufs), 1)
-	}
-
-	buf := bufs[0]
-	allBytes := append(bufferHeader, buffer...)
-	if !reflect.DeepEqual(buf.Bytes(), allBytes) {
-		t.Errorf("Test failed: return buf%v incorrect, expect%v", buf.Bytes(), allBytes)
+	if size != 1 {
+		t.Errorf("Test failed: return buf size[%d] incorrect, expect[%d]", size, 1)
 	}
 }
 
-func preparePartOfOneBuffer() []byte {
+func preparePackPartOfOneBuffer() []byte {
 	var (
 		buf          = bytes.NewBuffer([]byte{})
 		length int32 = 10
@@ -142,7 +74,7 @@ func preparePartOfOneBuffer() []byte {
 	return buf.Bytes()
 }
 
-func preparePartOfTwoBuffer() []byte {
+func preparePackPartOfTwoBuffer() []byte {
 	var (
 		buf = bytes.NewBuffer([]byte{})
 	)
@@ -151,77 +83,79 @@ func preparePartOfTwoBuffer() []byte {
 	return buf.Bytes()
 }
 
-func TestPackPartOf2(t *testing.T) {
+func TestPackPartOf(t *testing.T) {
 	var (
-		addr                               = "192.168.0.1:10000"
+		size                               int
 		lengthFieldFragmentationAssemblage = NewLengthFieldFragmentationAssemblage(8388608, 0, 4, 0)
 	)
 
-	buffer := preparePartOfOneBuffer2()
-	bufs, e := lengthFieldFragmentationAssemblage.Pack(addr, buffer)
+	buffer := preparePackPartOfOneBuffer()
+	e := lengthFieldFragmentationAssemblage.Pack(buffer, func(msg []byte) {
+		size++
+	})
 	if e != nil {
 		t.Errorf("Test failed: %s", e)
 	}
 
-	if len(bufs) != 0 {
-		t.Errorf("Test failed: return buf size[%d] incorrect, expect[%d]", len(bufs), 0)
+	if size != 0 {
+		t.Errorf("Test failed: return buf size[%d] incorrect, expect[%d]", size, 0)
 	}
 	bufferHeader := buffer
 
-	buffer = preparePartOfTwoBuffer2()
-	bufs, e = lengthFieldFragmentationAssemblage.Pack(addr, buffer)
+	buffer = preparePackPartOfTwoBuffer()
+	e = lengthFieldFragmentationAssemblage.Pack(buffer, func(msg []byte) {
+		size++
+		allBytes := append(bufferHeader, buffer...)
+		if !reflect.DeepEqual(msg, allBytes) {
+			t.Errorf("Test failed: return buf%v incorrect, expect%v", msg, allBytes)
+		}
+	})
 	if e != nil {
 		t.Errorf("Test failed: %s", e)
 	}
 
-	if len(bufs) != 1 {
-		t.Errorf("Test failed: return buf size[%d] incorrect, expect[%d]", len(bufs), 1)
-	}
-
-	buf := bufs[0]
-	allBytes := append(bufferHeader, buffer...)
-	allBytes = allBytes[:buf.Len()]
-	if !reflect.DeepEqual(buf.Bytes(), allBytes) {
-		t.Errorf("Test failed: return buf%v incorrect, expect%v", buf.Bytes(), allBytes)
+	if size != 1 {
+		t.Errorf("Test failed: return buf size[%d] incorrect, expect[%d]", size, 1)
 	}
 }
 
-func TestPackOffsetPartOf2(t *testing.T) {
+func TestPackOffsetPartOf(t *testing.T) {
 	var (
-		addr                               = "192.168.0.1:10000"
+		size                               int
 		lengthFieldFragmentationAssemblage = NewLengthFieldFragmentationAssemblage(8388608, 0, 4, 4)
 	)
 
-	buffer := preparePartOfOneBuffer2()
-	bufs, e := lengthFieldFragmentationAssemblage.Pack(addr, buffer)
+	buffer := preparePackPartOfOneBuffer()
+	e := lengthFieldFragmentationAssemblage.Pack(buffer, func(msg []byte) {
+		size++
+	})
 	if e != nil {
 		t.Errorf("Test failed: %s", e)
 	}
 
-	if len(bufs) != 0 {
-		t.Errorf("Test failed: return buf size[%d] incorrect, expect[%d]", len(bufs), 0)
+	if size != 0 {
+		t.Errorf("Test failed: return buf size[%d] incorrect, expect[%d]", size, 0)
 	}
 	bufferHeader := buffer[4:]
 
-	buffer = preparePartOfTwoBuffer2()
-	bufs, e = lengthFieldFragmentationAssemblage.Pack(addr, buffer)
+	buffer = preparePackPartOfTwoBuffer()
+	e = lengthFieldFragmentationAssemblage.Pack(buffer, func(msg []byte) {
+		size++
+		allBytes := append(bufferHeader, buffer...)
+		if !reflect.DeepEqual(msg, allBytes) {
+			t.Errorf("Test failed: return buf%v incorrect, expect%v", msg, allBytes)
+		}
+	})
 	if e != nil {
 		t.Errorf("Test failed: %s", e)
 	}
 
-	if len(bufs) != 1 {
-		t.Errorf("Test failed: return buf size[%d] incorrect, expect[%d]", len(bufs), 1)
-	}
-
-	buf := bufs[0]
-	allBytes := append(bufferHeader, buffer...)
-	allBytes = allBytes[:buf.Len()]
-	if !reflect.DeepEqual(buf.Bytes(), allBytes) {
-		t.Errorf("Test failed: return buf%v incorrect, expect%v", buf.Bytes(), allBytes)
+	if size != 1 {
+		t.Errorf("Test failed: return buf size[%d] incorrect, expect[%d]", size, 1)
 	}
 }
 
-func preparePartOfOneBuffer2() []byte {
+func preparePackPartOfOneBuffer2() []byte {
 	var (
 		buf          = bytes.NewBuffer([]byte{})
 		length int32 = 10
@@ -232,7 +166,7 @@ func preparePartOfOneBuffer2() []byte {
 	return buf.Bytes()
 }
 
-func preparePartOfTwoBuffer2() []byte {
+func preparePackPartOfTwoBuffer2() []byte {
 	var (
 		buf          = bytes.NewBuffer([]byte{})
 		length int32 = 10
@@ -244,61 +178,81 @@ func preparePartOfTwoBuffer2() []byte {
 	return buf.Bytes()
 }
 
-func TestDiscardPackOffsetPartOf(t *testing.T) {
+func TestPackPartOf2(t *testing.T) {
 	var (
-		addr                               = "192.168.0.1:10000"
+		size                               int
 		lengthFieldFragmentationAssemblage = NewLengthFieldFragmentationAssemblage(8388608, 0, 4, 0)
 	)
 
-	buffer := preparePartOfOneDiscardBuffer()
-	bufs, e := lengthFieldFragmentationAssemblage.Pack(addr, buffer)
-	if e != nil {
-		t.Logf("Pack failed: %s", e)
-	}
-
-	if len(bufs) != 0 {
-		t.Errorf("Test failed: return buf size[%d] incorrect, expect[%d]", len(bufs), 0)
-	}
-
-	buffer = preparePartOfTwoDiscardBuffer()
-	bufs, e = lengthFieldFragmentationAssemblage.Pack(addr, buffer)
+	buffer := preparePackPartOfOneBuffer2()
+	e := lengthFieldFragmentationAssemblage.Pack(buffer, func(msg []byte) {
+		size++
+	})
 	if e != nil {
 		t.Errorf("Test failed: %s", e)
 	}
 
-	if len(bufs) != 0 {
-		t.Errorf("Test failed: return buf size[%d] incorrect, expect[%d]", len(bufs), 0)
+	if size != 0 {
+		t.Errorf("Test failed: return buf size[%d] incorrect, expect[%d]", size, 0)
+	}
+	bufferHeader := buffer
+
+	buffer = preparePackPartOfTwoBuffer2()
+	e = lengthFieldFragmentationAssemblage.Pack(buffer, func(msg []byte) {
+		size++
+		allBytes := append(bufferHeader, buffer...)
+		allBytes = allBytes[:len(msg)]
+		if !reflect.DeepEqual(msg, allBytes) {
+			t.Errorf("Test failed: return buf%v incorrect, expect%v", msg, allBytes)
+		}
+	})
+	if e != nil {
+		t.Errorf("Test failed: %s", e)
+	}
+
+	if size != 1 {
+		t.Errorf("Test failed: return buf size[%d] incorrect, expect[%d]", size, 1)
 	}
 }
 
-func TestDiscardPackPartOf(t *testing.T) {
+func TestPackOffsetPartOf2(t *testing.T) {
 	var (
-		addr                               = "192.168.0.1:10000"
+		size                               int
 		lengthFieldFragmentationAssemblage = NewLengthFieldFragmentationAssemblage(8388608, 0, 4, 4)
 	)
 
-	buffer := preparePartOfOneDiscardBuffer()
-	bufs, e := lengthFieldFragmentationAssemblage.Pack(addr, buffer)
-	if e != nil {
-		t.Logf("Pack failed: %s", e)
-	}
-
-	if len(bufs) != 0 {
-		t.Errorf("Test failed: return buf size[%d] incorrect, expect[%d]", len(bufs), 0)
-	}
-
-	buffer = preparePartOfTwoDiscardBuffer()
-	bufs, e = lengthFieldFragmentationAssemblage.Pack(addr, buffer)
+	buffer := preparePackPartOfOneBuffer2()
+	e := lengthFieldFragmentationAssemblage.Pack(buffer, func(msg []byte) {
+		size++
+	})
 	if e != nil {
 		t.Errorf("Test failed: %s", e)
 	}
 
-	if len(bufs) != 0 {
-		t.Errorf("Test failed: return buf size[%d] incorrect, expect[%d]", len(bufs), 0)
+	if size != 0 {
+		t.Errorf("Test failed: return buf size[%d] incorrect, expect[%d]", size, 0)
+	}
+	bufferHeader := buffer[4:]
+
+	buffer = preparePackPartOfTwoBuffer2()
+	e = lengthFieldFragmentationAssemblage.Pack(buffer, func(msg []byte) {
+		size++
+		allBytes := append(bufferHeader, buffer...)
+		allBytes = allBytes[:len(msg)]
+		if !reflect.DeepEqual(msg, allBytes) {
+			t.Errorf("Test failed: return buf%v incorrect, expect%v", msg, allBytes)
+		}
+	})
+	if e != nil {
+		t.Errorf("Test failed: %s", e)
+	}
+
+	if size != 1 {
+		t.Errorf("Test failed: return buf size[%d] incorrect, expect[%d]", size, 1)
 	}
 }
 
-func preparePartOfOneDiscardBuffer() []byte {
+func preparePackPartOfOneDiscardBuffer() []byte {
 	var (
 		buf = bytes.NewBuffer([]byte{})
 	)
@@ -307,7 +261,7 @@ func preparePartOfOneDiscardBuffer() []byte {
 	return buf.Bytes()
 }
 
-func preparePartOfTwoDiscardBuffer() []byte {
+func preparePackPartOfTwoDiscardBuffer() []byte {
 	var (
 		buf          = bytes.NewBuffer([]byte{})
 		length int32 = 10
@@ -315,4 +269,66 @@ func preparePartOfTwoDiscardBuffer() []byte {
 	binary.Write(buf, binary.BigEndian, length)
 
 	return buf.Bytes()
+}
+
+func TestPackDiscardOffsetPartOf(t *testing.T) {
+	var (
+		size                               int
+		lengthFieldFragmentationAssemblage = NewLengthFieldFragmentationAssemblage(8388608, 0, 4, 0)
+	)
+
+	buffer := preparePackPartOfOneDiscardBuffer()
+	e := lengthFieldFragmentationAssemblage.Pack(buffer, func(msg []byte) {
+		size++
+	})
+	if e != nil {
+		t.Logf("Pack failed: %s", e)
+	}
+
+	if size != 0 {
+		t.Errorf("Test failed: return buf size[%d] incorrect, expect[%d]", size, 0)
+	}
+
+	buffer = preparePackPartOfTwoDiscardBuffer()
+	e = lengthFieldFragmentationAssemblage.Pack(buffer, func(msg []byte) {
+		size++
+	})
+	if e != nil {
+		t.Errorf("Test failed: %s", e)
+	}
+
+	if size != 0 {
+		t.Errorf("Test failed: return buf size[%d] incorrect, expect[%d]", size, 0)
+	}
+}
+
+func TestPackDiscardPartOf(t *testing.T) {
+	var (
+		size                               int
+		lengthFieldFragmentationAssemblage = NewLengthFieldFragmentationAssemblage(8388608, 0, 4, 4)
+	)
+
+	buffer := preparePackPartOfOneDiscardBuffer()
+	e := lengthFieldFragmentationAssemblage.Pack(buffer, func(msg []byte) {
+		size++
+	})
+	if e != nil {
+		t.Logf("UnPack failed: %s", e)
+	}
+
+	if size != 0 {
+		t.Errorf("Test failed: return buf size[%d] incorrect, expect[%d]", size, 0)
+	}
+
+	buffer = preparePackPartOfTwoDiscardBuffer()
+	e = lengthFieldFragmentationAssemblage.Pack(buffer, func(msg []byte) {
+		size++
+	})
+	if e != nil {
+		t.Errorf("Test failed: %s", e)
+	}
+
+	if size != 0 {
+		t.Errorf("Test failed: return buf size[%d] incorrect, expect[%d]", size, 0)
+	}
 }

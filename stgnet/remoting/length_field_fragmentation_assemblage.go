@@ -3,19 +3,17 @@ package remoting
 import (
 	"bytes"
 	"encoding/binary"
-	"sync"
 
 	"git.oschina.net/cloudzone/smartgo/stgcommon/logger"
 	"github.com/go-errors/errors"
 )
 
 type LengthFieldFragmentationAssemblage struct {
-	maxFrameLength       int                      // 最大帧的长度
-	lengthFieldOffset    int                      // 长度属性的起始偏移量
-	lengthFieldLength    int                      // 长度属性的长度
-	initialBytesToStrip  int                      // 业务数据需要跳过的长度
-	fragmentationTableMu sync.RWMutex             // 报文缓存的读写锁
-	fragmentationTable   map[string]*bytes.Buffer // 按连接地址对包进行处理，每个连接有独立goroutine处理。
+	maxFrameLength      int           // 最大帧的长度
+	lengthFieldOffset   int           // 长度属性的起始偏移量
+	lengthFieldLength   int           // 长度属性的长度
+	initialBytesToStrip int           // 业务数据需要跳过的长度
+	cache               *bytes.Buffer // 碎片存储
 }
 
 func NewLengthFieldFragmentationAssemblage(maxFrameLength, lengthFieldOffset, lengthFieldLength, initialBytesToStrip int) *LengthFieldFragmentationAssemblage {
@@ -24,11 +22,11 @@ func NewLengthFieldFragmentationAssemblage(maxFrameLength, lengthFieldOffset, le
 		lengthFieldOffset:   lengthFieldOffset,
 		lengthFieldLength:   lengthFieldLength,
 		initialBytesToStrip: initialBytesToStrip,
-		fragmentationTable:  make(map[string]*bytes.Buffer),
+		cache:               &bytes.Buffer{},
 	}
 }
 
-func (lfpfa *LengthFieldFragmentationAssemblage) Pack(addr string, buffer []byte, fn func([]byte)) (e error) {
+func (lfpfa *LengthFieldFragmentationAssemblage) Pack(buffer []byte, fn func([]byte)) (e error) {
 	var (
 		length = len(buffer)
 	)
@@ -41,26 +39,16 @@ func (lfpfa *LengthFieldFragmentationAssemblage) Pack(addr string, buffer []byte
 	}
 
 	// 缓存报文
-	lfpfa.fragmentationTableMu.RLock()
-	buf, ok := lfpfa.fragmentationTable[addr]
-	lfpfa.fragmentationTableMu.RUnlock()
-	if !ok {
-		buf = &bytes.Buffer{}
-		lfpfa.fragmentationTableMu.Lock()
-		lfpfa.fragmentationTable[addr] = buf
-		lfpfa.fragmentationTableMu.Unlock()
-	}
-
-	_, e = buf.Write(buffer)
+	_, e = lfpfa.cache.Write(buffer)
 	if e != nil {
 		e = errors.Wrap(e, 0)
 		return
 	}
 
-	return lfpfa.pack(addr, buf, fn)
+	return lfpfa.pack(fn)
 }
 
-func (lfpfa *LengthFieldFragmentationAssemblage) pack(addr string, buf *bytes.Buffer, fn func([]byte)) (e error) {
+func (lfpfa *LengthFieldFragmentationAssemblage) pack(fn func([]byte)) (e error) {
 	var (
 		start        int
 		end          int
@@ -72,14 +60,14 @@ func (lfpfa *LengthFieldFragmentationAssemblage) pack(addr string, buf *bytes.Bu
 	end = lfpfa.lengthFieldOffset + lfpfa.lengthFieldLength
 
 	for {
-		length = buf.Len()
+		length = lfpfa.cache.Len()
 		if length <= end {
 			// 长度不够，等待下个报文。
 			break
 		}
 
 		// 读取报文长度
-		lengthFieldBytes := buf.Bytes()[start:end]
+		lengthFieldBytes := lfpfa.cache.Bytes()[start:end]
 		packetLength, e = lfpfa.readLengthFieldLength(lengthFieldBytes)
 		if e != nil {
 			break
@@ -88,9 +76,7 @@ func (lfpfa *LengthFieldFragmentationAssemblage) pack(addr string, buf *bytes.Bu
 		// 报文传输出错或报文到达顺序与发送顺序不一致，顺序问题之后考虑。
 		if packetLength > lfpfa.maxFrameLength {
 			// 丢弃报文
-			lfpfa.fragmentationTableMu.Lock()
-			delete(lfpfa.fragmentationTable, addr)
-			lfpfa.fragmentationTableMu.Unlock()
+			lfpfa.cache.Reset()
 			logger.Errorf("frame length[%d] > maxFrameLength[%d], discard.", packetLength, lfpfa.maxFrameLength)
 			e = errors.Errorf("frame length[%d] > maxFrameLength[%d], discard.", packetLength, lfpfa.maxFrameLength)
 			break
@@ -102,7 +88,7 @@ func (lfpfa *LengthFieldFragmentationAssemblage) pack(addr string, buf *bytes.Bu
 		}
 
 		// 报文长度足够，读取报文并调整buffer
-		nbuf, e := lfpfa.adjustBuffer(addr, buf, packetLength+end)
+		nbuf, e := lfpfa.adjustBuffer(packetLength + end)
 		if e != nil {
 			break
 		}
@@ -113,24 +99,22 @@ func (lfpfa *LengthFieldFragmentationAssemblage) pack(addr string, buf *bytes.Bu
 	return
 }
 
-func (lfpfa *LengthFieldFragmentationAssemblage) adjustBuffer(addr string, buf *bytes.Buffer, packetLength int) ([]byte, error) {
+func (lfpfa *LengthFieldFragmentationAssemblage) adjustBuffer(packetLength int) ([]byte, error) {
 	// buffer中报文长度
-	distance := buf.Len() - packetLength
-	if distance == 0 {
-		// buffer数据已经读取完
-		lfpfa.fragmentationTableMu.Lock()
-		delete(lfpfa.fragmentationTable, addr)
-		lfpfa.fragmentationTableMu.Unlock()
-	}
+	distance := lfpfa.cache.Len() - packetLength
 
 	// 读取报文掉过的长度
 	if lfpfa.initialBytesToStrip > 0 {
-		buf.Next(lfpfa.initialBytesToStrip)
+		lfpfa.cache.Next(lfpfa.initialBytesToStrip)
 		packetLength -= lfpfa.initialBytesToStrip
 	}
 
 	// 读取报文
-	buffer := buf.Next(packetLength)
+	buffer := lfpfa.cache.Next(packetLength)
+	if distance == 0 {
+		// buffer数据已经读取完
+		lfpfa.cache.Reset()
+	}
 
 	nbuffer := make([]byte, len(buffer))
 	copy(nbuffer, buffer)

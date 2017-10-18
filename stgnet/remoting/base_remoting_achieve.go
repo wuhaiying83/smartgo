@@ -12,10 +12,6 @@ import (
 	"github.com/go-errors/errors"
 )
 
-const (
-	FRAME_MAX_LENGTH = 8388608
-)
-
 type BaseRemotingAchieve struct {
 	responseTable           map[int32]*ResponseFuture
 	responseTableLock       sync.RWMutex
@@ -24,7 +20,7 @@ type BaseRemotingAchieve struct {
 	processorTable          map[int32]RequestProcessor // 注册的处理器
 	processorTableLock      sync.RWMutex
 	timeoutTimer            *time.Timer
-	fragmentationActuator   PacketFragmentationAssembler
+	fragmentationActuator   *fragmentationActuator
 	isRunning               bool
 }
 
@@ -58,7 +54,8 @@ func (ra *BaseRemotingAchieve) processReceived(buffer []byte, ctx netm.Context) 
 
 	if ra.fragmentationActuator != nil {
 		// 粘包处理，之后使用队列缓存
-		err := ra.fragmentationActuator.Pack(ctx.Addr(), buffer, func(msg []byte) {
+		assembler := ra.fragmentationActuator.createAssemblerIfNotExist(ctx.Addr())
+		err := assembler.Pack(buffer, func(msg []byte) {
 			// 开启gorouting处理响应
 			ra.startGoRoutine(func() {
 				ra.processMessageReceived(ctx, msg)
