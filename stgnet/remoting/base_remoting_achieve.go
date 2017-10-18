@@ -58,7 +58,7 @@ func (ra *BaseRemotingAchieve) processReceived(buffer []byte, ctx netm.Context) 
 
 	if ra.fragmentationActuator != nil {
 		// 粘包处理，之后使用队列缓存
-		err := ra.fragmentationActuator.Pack(ctx.Addr(), buffer, func(msg *bytes.Buffer) {
+		err := ra.fragmentationActuator.Pack(ctx.Addr(), buffer, func(msg []byte) {
 			// 开启gorouting处理响应
 			ra.startGoRoutine(func() {
 				ra.processMessageReceived(ctx, msg)
@@ -70,23 +70,20 @@ func (ra *BaseRemotingAchieve) processReceived(buffer []byte, ctx netm.Context) 
 		}
 	} else {
 		// 不使用粘包
-		buf := &bytes.Buffer{}
-		_, err := buf.Write(buffer)
-		// 安全考虑进行拷贝数据，之后使用队列缓存
-		if err != nil {
-			logger.Fatalf("processReceived write buffer failed: %v", err)
-			return
-		}
+		// 拷贝buffer
+		nbuf := make([]byte, len(buffer))
+		copy(nbuf, buffer)
 
 		// 开启gorouting处理响应
 		ra.startGoRoutine(func() {
-			ra.processMessageReceived(ctx, buf)
+			ra.processMessageReceived(ctx, nbuf)
 		})
 	}
 }
 
-func (ra *BaseRemotingAchieve) processMessageReceived(ctx netm.Context, buf *bytes.Buffer) {
+func (ra *BaseRemotingAchieve) processMessageReceived(ctx netm.Context, buffer []byte) {
 	// 解析报文
+	buf := bytes.NewBuffer(buffer)
 	remotingCommand, err := protocol.DecodeRemotingCommand(buf)
 	if err != nil {
 		logger.Fatalf("processMessageReceived deconde failed: %v", err)

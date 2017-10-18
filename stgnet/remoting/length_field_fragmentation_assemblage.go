@@ -28,7 +28,7 @@ func NewLengthFieldFragmentationAssemblage(maxFrameLength, lengthFieldOffset, le
 	}
 }
 
-func (lfpfa *LengthFieldFragmentationAssemblage) Pack(addr string, buffer []byte, fn func(*bytes.Buffer)) (e error) {
+func (lfpfa *LengthFieldFragmentationAssemblage) Pack(addr string, buffer []byte, fn func([]byte)) (e error) {
 	var (
 		length = len(buffer)
 	)
@@ -60,7 +60,7 @@ func (lfpfa *LengthFieldFragmentationAssemblage) Pack(addr string, buffer []byte
 	return lfpfa.pack(addr, buf, fn)
 }
 
-func (lfpfa *LengthFieldFragmentationAssemblage) pack(addr string, buf *bytes.Buffer, fn func(*bytes.Buffer)) (e error) {
+func (lfpfa *LengthFieldFragmentationAssemblage) pack(addr string, buf *bytes.Buffer, fn func([]byte)) (e error) {
 	var (
 		start        int
 		end          int
@@ -113,7 +113,7 @@ func (lfpfa *LengthFieldFragmentationAssemblage) pack(addr string, buf *bytes.Bu
 	return
 }
 
-func (lfpfa *LengthFieldFragmentationAssemblage) adjustBuffer(addr string, buf *bytes.Buffer, packetLength int) (*bytes.Buffer, error) {
+func (lfpfa *LengthFieldFragmentationAssemblage) adjustBuffer(addr string, buf *bytes.Buffer, packetLength int) ([]byte, error) {
 	// buffer中报文长度
 	distance := buf.Len() - packetLength
 	if distance == 0 {
@@ -132,13 +132,10 @@ func (lfpfa *LengthFieldFragmentationAssemblage) adjustBuffer(addr string, buf *
 	// 读取报文
 	buffer := buf.Next(packetLength)
 
-	nbuf := &bytes.Buffer{}
-	_, err := nbuf.Write(buffer)
-	if err != nil {
-		return nil, errors.Wrap(err, 0)
-	}
+	nbuffer := make([]byte, len(buffer))
+	copy(nbuffer, buffer)
 
-	return nbuf, nil
+	return nbuffer, nil
 }
 
 func (lfpfa *LengthFieldFragmentationAssemblage) readLengthFieldLength(lengthFieldBytes []byte) (int, error) {
