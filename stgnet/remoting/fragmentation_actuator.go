@@ -37,6 +37,11 @@ func (actutor *fragmentationActuator) createAssemblerIfNotExist(key string) Pack
 	actutor.rwmu.RUnlock()
 
 	actutor.rwmu.Lock()
+	one, ok = actutor.assemblers[key]
+	if ok {
+		actutor.rwmu.Unlock()
+		return one
+	}
 	one = actutor.newAssembler()
 	actutor.assemblers[key] = one
 	actutor.rwmu.Unlock()

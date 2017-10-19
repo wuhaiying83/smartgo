@@ -20,6 +20,7 @@ type BaseRemotingAchieve struct {
 	processorTable          map[int32]RequestProcessor // 注册的处理器
 	processorTableLock      sync.RWMutex
 	timeoutTimer            *time.Timer
+	messageQueue            *messageQueue
 	fragmentationActuator   *fragmentationActuator
 	isRunning               bool
 }
@@ -52,13 +53,52 @@ func (ra *BaseRemotingAchieve) processReceived(buffer []byte, ctx netm.Context) 
 		return
 	}
 
-	if ra.fragmentationActuator != nil {
-		// 粘包处理，之后使用队列缓存
-		assembler := ra.fragmentationActuator.createAssemblerIfNotExist(ctx.Addr())
-		err := assembler.Pack(buffer, func(msg []byte) {
+	// 创建chan
+	ch := ra.messageQueue.createQueueIfNotExist(ctx.Addr())
+
+	// 拷贝buffer
+	nbuf := make([]byte, len(buffer))
+	copy(nbuf, buffer)
+
+	// 数据放入队列
+	ra.messageQueue.putMessage(ch, ctx, nbuf)
+	/*
+		if ra.fragmentationActuator != nil {
+			// 粘包处理，之后使用队列缓存
+			assembler := ra.fragmentationActuator.createAssemblerIfNotExist(ctx.Addr())
+			err := assembler.Pack(buffer, func(msg []byte) {
+				// 开启gorouting处理响应
+				ra.startGoRoutine(func() {
+					ra.processMessageReceived(ctx, msg)
+				})
+			})
+			if err != nil {
+				logger.Fatalf("processReceived unPack buffer failed: %v", err)
+				return
+			}
+		} else {
+			// 不使用粘包
+			// 拷贝buffer
+			nbuf := make([]byte, len(buffer))
+			copy(nbuf, buffer)
+
 			// 开启gorouting处理响应
 			ra.startGoRoutine(func() {
-				ra.processMessageReceived(ctx, msg)
+				ra.processMessageReceived(ctx, nbuf)
+			})
+		}
+	*/
+}
+
+func (ra *BaseRemotingAchieve) processMessageFromQueue(msg message) {
+	//开启gorouting处理响应
+	if ra.fragmentationActuator != nil {
+		// 粘包处理，之后使用队列缓存
+		assembler := ra.fragmentationActuator.createAssemblerIfNotExist(msg.ctx.Addr())
+		err := assembler.Pack(msg.cache, func(buffer []byte) {
+			// 开启gorouting处理响应
+			ra.startGoRoutine(func() {
+				ra.processMessageReceived(msg.ctx, buffer)
 			})
 		})
 		if err != nil {
@@ -67,13 +107,10 @@ func (ra *BaseRemotingAchieve) processReceived(buffer []byte, ctx netm.Context) 
 		}
 	} else {
 		// 不使用粘包
-		// 拷贝buffer
-		nbuf := make([]byte, len(buffer))
-		copy(nbuf, buffer)
 
 		// 开启gorouting处理响应
 		ra.startGoRoutine(func() {
-			ra.processMessageReceived(ctx, nbuf)
+			ra.processMessageReceived(msg.ctx, msg.cache)
 		})
 	}
 }

@@ -67,14 +67,14 @@ func synctest(addr string, gonum, sendnum, sendsize int) {
 				response, err := remotingClient.InvokeSync(addr, request, 3000)
 				if err != nil {
 					failed++
-					//log.Printf("Send Mssage[Sync] failed: %s\n", err)
+					log.Printf("Send Mssage[Sync] failed: %s\n", err)
 				} else {
 					if response.Code == code.SUCCESS {
 						success++
 						//log.Printf("Send Mssage[Sync] success. response: body[%s]\n", string(response.Body))
 					} else {
 						failed++
-						//log.Printf("Send Mssage[Sync] failed: code[%d] err[%s]\n", response.Code, response.Remark)
+						log.Printf("Send Mssage[Sync] failed: code[%d] err[%s]\n", response.Code, response.Remark)
 					}
 				}
 			}

@@ -22,6 +22,7 @@ type DefalutRemotingClient struct {
 func NewDefalutRemotingClient() *DefalutRemotingClient {
 	remotingClient := &DefalutRemotingClient{}
 	remotingClient.responseTable = make(map[int32]*ResponseFuture)
+	remotingClient.messageQueue = newMessageQueue(DEFAULT_QUEUE_SIZE, remotingClient.processMessageFromQueue)
 	remotingClient.fragmentationActuator = newFragmentationActuator(FRAME_MAX_LENGTH, 0, 4, 0)
 	remotingClient.bootstrap = netm.NewBootstrap()
 	return remotingClient
