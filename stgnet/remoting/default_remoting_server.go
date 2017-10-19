@@ -9,9 +9,8 @@ import (
 
 // DefalutRemotingServer default remoting server
 type DefalutRemotingServer struct {
-	host      string
-	port      int
-	bootstrap *netm.Bootstrap
+	host string
+	port int
 	BaseRemotingAchieve
 }
 
@@ -22,8 +21,11 @@ func NewDefalutRemotingServer(host string, port int) *DefalutRemotingServer {
 		port: port,
 	}
 	remotingServe.responseTable = make(map[int32]*ResponseFuture)
-	remotingServe.messageQueue = newMessageQueue(DEFAULT_QUEUE_SIZE, remotingServe.processMessageFromQueue)
-	remotingServe.fragmentationActuator = newFragmentationActuator(FRAME_MAX_LENGTH, 0, 4, 0)
+
+	messageQueue := newMessageQueue(DEFAULT_QUEUE_SIZE, remotingServe.processMessageFromQueue)
+	actuator := newFragmentationActuator(FRAME_MAX_LENGTH, 0, 4, 0)
+	messageQueue.setFragmentationActuator(actuator)
+	remotingServe.messageQueue = messageQueue
 	remotingServe.bootstrap = netm.NewBootstrap()
 	return remotingServe
 }
@@ -46,6 +48,11 @@ func (rs *DefalutRemotingServer) Start() {
 func (rs *DefalutRemotingServer) Shutdown() {
 	if rs.timeoutTimer != nil {
 		rs.timeoutTimer.Stop()
+	}
+
+	// 关闭接收队列
+	if rs.messageQueue != nil {
+		rs.messageQueue.close()
 	}
 
 	if rs.bootstrap != nil {
@@ -84,9 +91,4 @@ func (rs *DefalutRemotingServer) GetListenPort() string {
 // Since 2017/9/5
 func (rs *DefalutRemotingServer) Port() int32 {
 	return int32(rs.port)
-}
-
-// RegisterContextListener 注册context listener
-func (rs *DefalutRemotingServer) RegisterContextListener(contextListener netm.ContextListener) {
-	rs.bootstrap.RegisterContextListener(contextListener)
 }

@@ -27,40 +27,54 @@ func newFragmentationActuator(maxFrameLength, lengthFieldOffset, lengthFieldLeng
 	}
 }
 
-func (actutor *fragmentationActuator) createAssemblerIfNotExist(key string) PacketFragmentationAssembler {
-	actutor.rwmu.RLock()
-	one, ok := actutor.assemblers[key]
+func (actuator *fragmentationActuator) createAssemblerIfNotExist(key string) PacketFragmentationAssembler {
+	actuator.rwmu.Lock()
+	one, ok := actuator.assemblers[key]
 	if ok {
-		actutor.rwmu.RUnlock()
+		actuator.rwmu.Unlock()
 		return one
 	}
-	actutor.rwmu.RUnlock()
-
-	actutor.rwmu.Lock()
-	one, ok = actutor.assemblers[key]
-	if ok {
-		actutor.rwmu.Unlock()
-		return one
-	}
-	one = actutor.newAssembler()
-	actutor.assemblers[key] = one
-	actutor.rwmu.Unlock()
+	one = actuator.newAssembler()
+	actuator.assemblers[key] = one
+	actuator.rwmu.Unlock()
 
 	return one
 }
 
-func (actutor *fragmentationActuator) newAssembler() PacketFragmentationAssembler {
-	return NewLengthFieldFragmentationAssemblage(actutor.maxFrameLength,
-		actutor.lengthFieldOffset, actutor.lengthFieldLength, actutor.initialBytesToStrip)
+func (actuator *fragmentationActuator) newAssembler() PacketFragmentationAssembler {
+	return NewLengthFieldFragmentationAssemblage(actuator.maxFrameLength,
+		actuator.lengthFieldOffset, actuator.lengthFieldLength, actuator.initialBytesToStrip)
 }
 
-func (actutor *fragmentationActuator) getAssembler(key string) PacketFragmentationAssembler {
-	actutor.rwmu.RLock()
-	defer actutor.rwmu.RUnlock()
-	one, ok := actutor.assemblers[key]
+func (actuator *fragmentationActuator) getAssembler(key string) PacketFragmentationAssembler {
+	actuator.rwmu.RLock()
+	defer actuator.rwmu.RUnlock()
+	one, ok := actuator.assemblers[key]
 	if ok {
 		return one
 	}
 
 	return nil
+}
+
+func (actuator *fragmentationActuator) remove(key string) PacketFragmentationAssembler {
+	var assembler PacketFragmentationAssembler
+
+	actuator.rwmu.Lock()
+	one, ok := actuator.assemblers[key]
+	if ok {
+		delete(actuator.assemblers, key)
+		assembler = one
+	}
+	actuator.rwmu.Unlock()
+
+	return assembler
+}
+
+func (actuator *fragmentationActuator) clean() {
+	actuator.rwmu.Lock()
+	for k, _ := range actuator.assemblers {
+		delete(actuator.assemblers, k)
+	}
+	actuator.rwmu.Unlock()
 }

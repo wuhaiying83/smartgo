@@ -13,6 +13,7 @@ import (
 )
 
 type BaseRemotingAchieve struct {
+	bootstrap               *netm.Bootstrap
 	responseTable           map[int32]*ResponseFuture
 	responseTableLock       sync.RWMutex
 	rpcHook                 RPCHook
@@ -21,7 +22,6 @@ type BaseRemotingAchieve struct {
 	processorTableLock      sync.RWMutex
 	timeoutTimer            *time.Timer
 	messageQueue            *messageQueue
-	fragmentationActuator   *fragmentationActuator
 	isRunning               bool
 }
 
@@ -62,57 +62,13 @@ func (ra *BaseRemotingAchieve) processReceived(buffer []byte, ctx netm.Context) 
 
 	// 数据放入队列
 	ra.messageQueue.putMessage(ch, ctx, nbuf)
-	/*
-		if ra.fragmentationActuator != nil {
-			// 粘包处理，之后使用队列缓存
-			assembler := ra.fragmentationActuator.createAssemblerIfNotExist(ctx.Addr())
-			err := assembler.Pack(buffer, func(msg []byte) {
-				// 开启gorouting处理响应
-				ra.startGoRoutine(func() {
-					ra.processMessageReceived(ctx, msg)
-				})
-			})
-			if err != nil {
-				logger.Fatalf("processReceived unPack buffer failed: %v", err)
-				return
-			}
-		} else {
-			// 不使用粘包
-			// 拷贝buffer
-			nbuf := make([]byte, len(buffer))
-			copy(nbuf, buffer)
-
-			// 开启gorouting处理响应
-			ra.startGoRoutine(func() {
-				ra.processMessageReceived(ctx, nbuf)
-			})
-		}
-	*/
 }
 
 func (ra *BaseRemotingAchieve) processMessageFromQueue(msg message) {
-	//开启gorouting处理响应
-	if ra.fragmentationActuator != nil {
-		// 粘包处理，之后使用队列缓存
-		assembler := ra.fragmentationActuator.createAssemblerIfNotExist(msg.ctx.Addr())
-		err := assembler.Pack(msg.cache, func(buffer []byte) {
-			// 开启gorouting处理响应
-			ra.startGoRoutine(func() {
-				ra.processMessageReceived(msg.ctx, buffer)
-			})
-		})
-		if err != nil {
-			logger.Fatalf("processReceived unPack buffer failed: %v", err)
-			return
-		}
-	} else {
-		// 不使用粘包
-
-		// 开启gorouting处理响应
-		ra.startGoRoutine(func() {
-			ra.processMessageReceived(msg.ctx, msg.cache)
-		})
-	}
+	// 开启gorouting处理响应
+	ra.startGoRoutine(func() {
+		ra.processMessageReceived(msg.ctx, msg.cache)
+	})
 }
 
 func (ra *BaseRemotingAchieve) processMessageReceived(ctx netm.Context, buffer []byte) {
@@ -359,4 +315,33 @@ func (ra *BaseRemotingAchieve) startScheduledTask() {
 			ra.timeoutTimer.Reset(time.Second)
 		}
 	})
+}
+
+// RegisterContextListener 注册context listener
+func (ra *BaseRemotingAchieve) RegisterContextListener(contextListener netm.ContextListener) {
+	ra.bootstrap.RegisterContextListener(&innerContextListener{real: contextListener, ra: ra})
+}
+
+func (ra *BaseRemotingAchieve) OnContextConnect(ctx netm.Context) {
+	if ra.messageQueue != nil {
+		ra.messageQueue.createQueueIfNotExist(ctx.Addr())
+	}
+}
+
+func (ra *BaseRemotingAchieve) OnContextClose(ctx netm.Context) {
+	if ra.messageQueue != nil {
+		ra.messageQueue.remove(ctx.Addr())
+	}
+}
+
+func (ra *BaseRemotingAchieve) OnContextError(ctx netm.Context) {
+	if ra.messageQueue != nil {
+		ra.messageQueue.remove(ctx.Addr())
+	}
+}
+
+func (ra *BaseRemotingAchieve) OnContextIdle(ctx netm.Context) {
+	if ra.messageQueue != nil {
+		ra.messageQueue.remove(ctx.Addr())
+	}
 }

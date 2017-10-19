@@ -10,7 +10,6 @@ import (
 
 // DefalutRemotingClient default remoting client
 type DefalutRemotingClient struct {
-	bootstrap           *netm.Bootstrap
 	namesrvAddrList     []string
 	namesrvAddrListLock sync.RWMutex
 	namesrvAddrChoosed  string
@@ -22,8 +21,11 @@ type DefalutRemotingClient struct {
 func NewDefalutRemotingClient() *DefalutRemotingClient {
 	remotingClient := &DefalutRemotingClient{}
 	remotingClient.responseTable = make(map[int32]*ResponseFuture)
-	remotingClient.messageQueue = newMessageQueue(DEFAULT_QUEUE_SIZE, remotingClient.processMessageFromQueue)
-	remotingClient.fragmentationActuator = newFragmentationActuator(FRAME_MAX_LENGTH, 0, 4, 0)
+
+	messageQueue := newMessageQueue(DEFAULT_QUEUE_SIZE, remotingClient.processMessageFromQueue)
+	actuator := newFragmentationActuator(FRAME_MAX_LENGTH, 0, 4, 0)
+	messageQueue.setFragmentationActuator(actuator)
+	remotingClient.messageQueue = messageQueue
 	remotingClient.bootstrap = netm.NewBootstrap()
 	return remotingClient
 }
@@ -43,6 +45,11 @@ func (rc *DefalutRemotingClient) Start() {
 func (rc *DefalutRemotingClient) Shutdown() {
 	if rc.timeoutTimer != nil {
 		rc.timeoutTimer.Stop()
+	}
+
+	// 关闭接收队列
+	if rc.messageQueue != nil {
+		rc.messageQueue.close()
 	}
 
 	if rc.bootstrap != nil {
@@ -177,9 +184,4 @@ func (rc *DefalutRemotingClient) chooseNameseverAddr() string {
 	rc.namesrvAddrListLock.RUnlock()
 
 	return caddr
-}
-
-// RegisterContextListener 注册context listener
-func (rc *DefalutRemotingClient) RegisterContextListener(contextListener netm.ContextListener) {
-	rc.bootstrap.RegisterContextListener(contextListener)
 }
