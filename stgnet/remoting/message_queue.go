@@ -22,12 +22,13 @@ type message struct {
 }
 
 type messageQueue struct {
-	size     int                     // 接收的缓存队列大小
-	chans    map[string]chan message // 接收的缓存队列,按接收ip:port区分
-	rwMu     sync.RWMutex            // 读写锁
-	handler  messageHandler          // 处理完成的执行函数
-	actuator *fragmentationActuator  // 内置粘包处理器,减少锁的使用
-	pool     *sync.Pool              // 临时对象池，用于产生cache
+	size      int                     // 接收的缓存队列大小
+	chans     map[string]chan message // 接收的缓存队列,按接收ip:port区分
+	rwMu      sync.RWMutex            // 读写锁
+	handler   messageHandler          // 处理完成的执行函数
+	actuator  *fragmentationActuator  // 内置粘包处理器,减少锁的使用
+	poolESize int                     // 临时对象池，cache大小
+	pool      *sync.Pool              // 临时对象池，用于产生cache
 }
 
 func newMessageQueue(size int, handler messageHandler) *messageQueue {
@@ -43,9 +44,10 @@ func (queue *messageQueue) setFragmentationActuator(actuator *fragmentationActua
 }
 
 func (queue *messageQueue) usePool(initSize, bufferSize int) {
+	queue.poolESize = bufferSize
 	queue.pool = &sync.Pool{
 		New: func() interface{} {
-			mem := make([]byte, bufferSize)
+			mem := make([]byte, queue.poolESize)
 			return &mem
 		},
 	}
@@ -170,7 +172,7 @@ func (queue *messageQueue) putMessage(ch chan message, ctx netm.Context, buffer 
 func (queue *messageQueue) newBuffer(size int) *[]byte {
 	var mem *[]byte
 
-	if queue.pool != nil {
+	if queue.pool != nil && size <= queue.poolESize {
 		mem = queue.pool.Get().(*[]byte)
 	} else {
 		nbuf := make([]byte, size)
@@ -181,7 +183,7 @@ func (queue *messageQueue) newBuffer(size int) *[]byte {
 }
 
 func (queue *messageQueue) putBuffer(mem *[]byte) {
-	if queue.pool != nil {
+	if queue.pool != nil && len(*mem) <= queue.poolESize {
 		queue.pool.Put(mem)
 	}
 }
