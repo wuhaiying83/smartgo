@@ -96,7 +96,7 @@ func (lfpfa *LengthFieldFragmentationAssemblage) pack(fn func([]byte)) (e error)
 		// 读取报文
 		buffer := lfpfa.cache.Next(end)
 		if start > 0 {
-			buffer = buffer[start:]
+			buffer = buffer[start:end]
 		}
 
 		fn(buffer)
