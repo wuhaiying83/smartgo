@@ -50,24 +50,26 @@ func (lfpfa *LengthFieldFragmentationAssemblage) Pack(buffer []byte, fn func([]b
 
 func (lfpfa *LengthFieldFragmentationAssemblage) pack(fn func([]byte)) (e error) {
 	var (
-		start        int
-		end          int
+		lfOffset     int
+		lfoLength    int
 		length       int
 		packetLength int
+		start        int
+		end          int
 	)
 
-	start = lfpfa.lengthFieldOffset
-	end = lfpfa.lengthFieldOffset + lfpfa.lengthFieldLength
+	lfOffset = lfpfa.lengthFieldOffset
+	lfoLength = lfpfa.lengthFieldOffset + lfpfa.lengthFieldLength
 
 	for {
 		length = lfpfa.cache.Len()
-		if length <= end {
+		if length <= lfoLength {
 			// 长度不够，等待下个报文。
 			break
 		}
 
 		// 读取报文长度
-		lengthFieldBytes := lfpfa.cache.Bytes()[start:end]
+		lengthFieldBytes := lfpfa.cache.Bytes()[lfOffset:lfoLength]
 		packetLength, e = lfpfa.readLengthFieldLength(lengthFieldBytes)
 		if e != nil {
 			break
@@ -83,43 +85,28 @@ func (lfpfa *LengthFieldFragmentationAssemblage) pack(fn func([]byte)) (e error)
 		}
 
 		// 长度小于报文长度，等待下个报文
-		if length-end < packetLength {
+		if length-lfoLength < packetLength {
 			break
 		}
 
 		// 报文长度足够，读取报文并调整buffer
-		nbuf, e := lfpfa.adjustBuffer(packetLength + end)
-		if e != nil {
-			break
+		start = lfpfa.initialBytesToStrip
+		end = packetLength + lfoLength
+
+		// 读取报文
+		buffer := lfpfa.cache.Next(end)
+		if start > 0 {
+			buffer = buffer[start:]
 		}
-		//bufs = append(bufs, nbuf)
-		fn(nbuf)
+
+		// 拷贝报文
+		nbuffer := make([]byte, len(buffer))
+		copy(nbuffer, buffer)
+
+		fn(nbuffer)
 	}
 
 	return
-}
-
-func (lfpfa *LengthFieldFragmentationAssemblage) adjustBuffer(packetLength int) ([]byte, error) {
-	// buffer中报文长度
-	distance := lfpfa.cache.Len() - packetLength
-
-	// 读取报文掉过的长度
-	if lfpfa.initialBytesToStrip > 0 {
-		lfpfa.cache.Next(lfpfa.initialBytesToStrip)
-		packetLength -= lfpfa.initialBytesToStrip
-	}
-
-	// 读取报文
-	buffer := lfpfa.cache.Next(packetLength)
-	if distance == 0 {
-		// buffer数据已经读取完
-		lfpfa.cache.Reset()
-	}
-
-	nbuffer := make([]byte, len(buffer))
-	copy(nbuffer, buffer)
-
-	return nbuffer, nil
 }
 
 func (lfpfa *LengthFieldFragmentationAssemblage) readLengthFieldLength(lengthFieldBytes []byte) (int, error) {
