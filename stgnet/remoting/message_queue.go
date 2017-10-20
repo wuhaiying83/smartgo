@@ -8,13 +8,16 @@ import (
 )
 
 const (
-	DEFAULT_QUEUE_SIZE = 10000
+	DEFAULT_QUEUE_SIZE       = 10000
+	DEFAULT_POOL_INIT_SIZE   = 1024
+	DEFAULT_POOL_BUFFER_SIZE = 1024
 )
 
-type messageHandler func(msg message)
+type messageHandler func(netm.Context, []byte)
 
 type message struct {
-	cache []byte
+	cache *[]byte
+	size  int
 	ctx   netm.Context
 }
 
@@ -24,6 +27,7 @@ type messageQueue struct {
 	rwMu     sync.RWMutex            // 读写锁
 	handler  messageHandler          // 处理完成的执行函数
 	actuator *fragmentationActuator  // 内置粘包处理器,减少锁的使用
+	pool     *sync.Pool              // 临时对象池，用于产生cache
 }
 
 func newMessageQueue(size int, handler messageHandler) *messageQueue {
@@ -36,6 +40,19 @@ func newMessageQueue(size int, handler messageHandler) *messageQueue {
 
 func (queue *messageQueue) setFragmentationActuator(actuator *fragmentationActuator) {
 	queue.actuator = actuator
+}
+
+func (queue *messageQueue) usePool(initSize, bufferSize int) {
+	queue.pool = &sync.Pool{
+		New: func() interface{} {
+			mem := make([]byte, bufferSize)
+			return &mem
+		},
+	}
+
+	for i := 0; i < initSize; i++ {
+		queue.pool.Put(queue.pool.New())
+	}
 }
 
 func (queue *messageQueue) createQueueIfNotExist(key string) chan message {
@@ -87,20 +104,25 @@ func (queue *messageQueue) startReceiveMsgOnQueue(key string, ch chan message, a
 		if assembler != nil {
 			// 粘包处理
 			for msg := range ch {
-				err := assembler.Pack(msg.cache, func(buffer []byte) {
+				fragmentation := (*msg.cache)[:msg.size]
+				err := assembler.Pack(fragmentation, func(buffer []byte) {
 					if queue.handler != nil {
-						queue.handler(message{ctx: msg.ctx, cache: buffer})
+						queue.handler(msg.ctx, buffer)
 					}
 				})
 				if err != nil {
 					logger.Fatalf("startReceiveMsgOnQueue Pack buffer failed: %v", err)
 				}
+
+				//回收内存
+				queue.pool.Put(msg.cache)
 			}
 		} else {
 			// 不使用粘包
 			for msg := range ch {
 				if queue.handler != nil {
-					queue.handler(msg)
+					fragmentation := (*msg.cache)[:msg.size]
+					queue.handler(msg.ctx, fragmentation)
 				}
 			}
 		}
@@ -136,7 +158,13 @@ func (queue *messageQueue) close() {
 }
 
 func (queue *messageQueue) putMessage(ch chan message, ctx netm.Context, buffer []byte) {
-	ch <- message{ctx: ctx, cache: buffer}
+	if queue.pool != nil {
+		mem := queue.pool.Get().(*[]byte)
+		copy(*mem, buffer)
+		ch <- message{ctx: ctx, cache: mem, size: len(buffer)}
+	} else {
+		ch <- message{ctx: ctx, cache: &buffer, size: len(buffer)}
+	}
 }
 
 func (queue *messageQueue) startGoRoutine(fn func()) {

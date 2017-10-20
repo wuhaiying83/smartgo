@@ -6,6 +6,7 @@ import (
 	"net"
 	"strconv"
 	"sync"
+	"sync/atomic"
 	"time"
 
 	code "git.oschina.net/cloudzone/smartgo/stgcommon/protocol"
@@ -45,8 +46,8 @@ func newbytes(size int) []byte {
 func synctest(addr string, gonum, sendnum, sendsize int) {
 	var (
 		wg      sync.WaitGroup
-		success int
-		failed  int
+		success uint64
+		failed  uint64
 		total   int
 	)
 
@@ -66,14 +67,14 @@ func synctest(addr string, gonum, sendnum, sendsize int) {
 				request.Body = body
 				response, err := remotingClient.InvokeSync(addr, request, 3000)
 				if err != nil {
-					failed++
+					atomic.AddUint64(&failed, 1)
 					log.Printf("Send Mssage[Sync] failed: %s\n", err)
 				} else {
 					if response.Code == code.SUCCESS {
-						success++
+						atomic.AddUint64(&success, 1)
 						//log.Printf("Send Mssage[Sync] success. response: body[%s]\n", string(response.Body))
 					} else {
-						failed++
+						atomic.AddUint64(&failed, 1)
 						log.Printf("Send Mssage[Sync] failed: code[%d] err[%s]\n", response.Code, response.Remark)
 					}
 				}

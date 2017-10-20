@@ -64,10 +64,10 @@ func (ra *BaseRemotingAchieve) processReceived(buffer []byte, ctx netm.Context) 
 	ra.messageQueue.putMessage(ch, ctx, nbuf)
 }
 
-func (ra *BaseRemotingAchieve) processMessageFromQueue(msg message) {
+func (ra *BaseRemotingAchieve) processMessageFromQueue(ctx netm.Context, buffer []byte) {
 	// 开启gorouting处理响应
 	ra.startGoRoutine(func() {
-		ra.processMessageReceived(msg.ctx, msg.cache)
+		ra.processMessageReceived(ctx, buffer)
 	})
 }
 

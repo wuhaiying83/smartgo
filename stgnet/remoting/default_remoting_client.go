@@ -25,6 +25,7 @@ func NewDefalutRemotingClient() *DefalutRemotingClient {
 	messageQueue := newMessageQueue(DEFAULT_QUEUE_SIZE, remotingClient.processMessageFromQueue)
 	actuator := newFragmentationActuator(FRAME_MAX_LENGTH, 0, 4, 0)
 	messageQueue.setFragmentationActuator(actuator)
+	messageQueue.usePool(DEFAULT_POOL_INIT_SIZE, DEFAULT_POOL_BUFFER_SIZE)
 	remotingClient.messageQueue = messageQueue
 	remotingClient.bootstrap = netm.NewBootstrap()
 	return remotingClient
