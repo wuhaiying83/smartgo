@@ -6,8 +6,8 @@ import (
 )
 
 var (
-	namesrvAddr     = "10.122.1.200:9876"
-	topic           = "luoji"
+	namesrvAddr     = "10.112.68.189:9876"
+	topic           = "cloudzone1"
 	tag             = "tagA"
 	producerGroupId = "producerGroupId-200"
 )
