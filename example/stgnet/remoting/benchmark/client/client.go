@@ -51,8 +51,8 @@ func newbytes(size int) []byte {
 func synctest(addr string, gonum, sendnum, sendsize int) {
 	var (
 		wg      sync.WaitGroup
-		success uint64
-		failed  uint64
+		success int64
+		failed  int64
 		total   int
 	)
 
@@ -72,14 +72,14 @@ func synctest(addr string, gonum, sendnum, sendsize int) {
 				request.Body = body
 				response, err := remotingClient.InvokeSync(addr, request, 3000)
 				if err != nil {
-					atomic.AddUint64(&failed, 1)
+					atomic.AddInt64(&failed, 1)
 					log.Printf("Send Mssage[Sync] failed: %s\n", err)
 				} else {
 					if response.Code == code.SUCCESS {
-						atomic.AddUint64(&success, 1)
+						atomic.AddInt64(&success, 1)
 						//log.Printf("Send Mssage[Sync] success. response: body[%s]\n", string(response.Body))
 					} else {
-						atomic.AddUint64(&failed, 1)
+						atomic.AddInt64(&failed, 1)
 						log.Printf("Send Mssage[Sync] failed: code[%d] err[%s]\n", response.Code, response.Remark)
 					}
 				}
@@ -91,8 +91,8 @@ func synctest(addr string, gonum, sendnum, sendsize int) {
 	wg.Wait()
 	end := time.Now()
 	spend := end.Sub(start)
-	spendTime := int(end.UnixNano() - start.UnixNano())
-	tps := total * 1000000000 / spendTime
+	spendTime := end.UnixNano() - start.UnixNano()
+	tps := success * 1000000000 / spendTime
 
 	log.Printf("Send Mssage[Sync]. Time: %v, Total: %d, Success: %d, Failed: %d, Tps: %d\n", spend, total, success, failed, tps)
 }
