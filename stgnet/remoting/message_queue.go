@@ -115,7 +115,7 @@ func (queue *messageQueue) startReceiveMsgOnQueue(key string, ch chan message, a
 				}
 
 				//回收内存
-				queue.pool.Put(msg.cache)
+				queue.putBuffer(msg.cache)
 			}
 		} else {
 			// 不使用粘包
@@ -158,12 +158,31 @@ func (queue *messageQueue) close() {
 }
 
 func (queue *messageQueue) putMessage(ch chan message, ctx netm.Context, buffer []byte) {
+	var (
+		size = len(buffer)
+	)
+
+	mem := queue.newBuffer(size)
+	copy(*mem, buffer)
+	ch <- message{ctx: ctx, cache: mem, size: size}
+}
+
+func (queue *messageQueue) newBuffer(size int) *[]byte {
+	var mem *[]byte
+
 	if queue.pool != nil {
-		mem := queue.pool.Get().(*[]byte)
-		copy(*mem, buffer)
-		ch <- message{ctx: ctx, cache: mem, size: len(buffer)}
+		mem = queue.pool.Get().(*[]byte)
 	} else {
-		ch <- message{ctx: ctx, cache: &buffer, size: len(buffer)}
+		nbuf := make([]byte, size)
+		mem = &nbuf
+	}
+
+	return mem
+}
+
+func (queue *messageQueue) putBuffer(mem *[]byte) {
+	if queue.pool != nil {
+		queue.pool.Put(mem)
 	}
 }
 

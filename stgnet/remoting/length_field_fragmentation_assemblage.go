@@ -99,11 +99,7 @@ func (lfpfa *LengthFieldFragmentationAssemblage) pack(fn func([]byte)) (e error)
 			buffer = buffer[start:]
 		}
 
-		// 拷贝报文
-		nbuffer := make([]byte, len(buffer))
-		copy(nbuffer, buffer)
-
-		fn(nbuffer)
+		fn(buffer)
 	}
 
 	return

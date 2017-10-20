@@ -56,29 +56,36 @@ func (ra *BaseRemotingAchieve) processReceived(buffer []byte, ctx netm.Context) 
 	// 创建chan
 	ch := ra.messageQueue.createQueueIfNotExist(ctx.Addr())
 
-	// 拷贝buffer
-	nbuf := make([]byte, len(buffer))
-	copy(nbuf, buffer)
-
 	// 数据放入队列
-	ra.messageQueue.putMessage(ch, ctx, nbuf)
+	ra.messageQueue.putMessage(ch, ctx, buffer)
 }
 
 func (ra *BaseRemotingAchieve) processMessageFromQueue(ctx netm.Context, buffer []byte) {
+	var (
+		size = len(buffer)
+	)
+
+	// 拷贝报文 直接使用messageQueue的对象池
+	mem := ra.messageQueue.newBuffer(size)
+	copy(*mem, buffer)
+
 	// 开启gorouting处理响应
 	ra.startGoRoutine(func() {
-		ra.processMessageReceived(ctx, buffer)
+		ra.processMessageReceived(ctx, mem, size)
 	})
 }
 
-func (ra *BaseRemotingAchieve) processMessageReceived(ctx netm.Context, buffer []byte) {
+func (ra *BaseRemotingAchieve) processMessageReceived(ctx netm.Context, mem *[]byte, size int) {
+	msg := (*mem)[:size]
+
 	// 解析报文
-	buf := bytes.NewBuffer(buffer)
+	buf := bytes.NewBuffer(msg)
 	remotingCommand, err := protocol.DecodeRemotingCommand(buf)
 	if err != nil {
 		logger.Fatalf("processMessageReceived deconde failed: %v", err)
 		return
 	}
+	ra.messageQueue.putBuffer(mem)
 
 	if remotingCommand == nil {
 		return
