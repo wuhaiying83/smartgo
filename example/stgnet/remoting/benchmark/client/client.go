@@ -27,11 +27,16 @@ func main() {
 	gonum := flag.Int("n", 100, "thread num")
 	sendnum := flag.Int("c", 10000, "thread/per send count")
 	sendsize := flag.Int("s", 100, "send data size")
+	async := flag.Bool("a", false, "sync & async")
 	flag.Parse()
 
 	initClient()
 	addr := net.JoinHostPort(*host, strconv.Itoa(*port))
-	synctest(addr, *gonum, *sendnum, *sendsize)
+	if *async {
+		asynctest(addr, *gonum, *sendnum, *sendsize)
+	} else {
+		synctest(addr, *gonum, *sendnum, *sendsize)
+	}
 }
 
 func newbytes(size int) []byte {
@@ -90,6 +95,73 @@ func synctest(addr string, gonum, sendnum, sendsize int) {
 	tps := total * 1000000000 / spendTime
 
 	log.Printf("Send Mssage[Sync]. Time: %v, Total: %d, Success: %d, Failed: %d, Tps: %d\n", spend, total, success, failed, tps)
+}
+
+func asynctest(addr string, gonum, sendnum, sendsize int) {
+	var (
+		wg      sync.WaitGroup
+		success uint64
+		failed  uint64
+		total   int
+	)
+
+	// 请求的custom header
+	topicStatsInfoRequestHeader := &namesrv.GetTopicStatsInfoRequestHeader{}
+	topicStatsInfoRequestHeader.Topic = "testTopic"
+	body := newbytes(sendsize)
+
+	// 同步消息
+	total = gonum * sendnum
+	wg.Add(gonum)
+	start := time.Now()
+	for ii := 0; ii < gonum; ii++ {
+		go func() {
+			for i := 0; i < sendnum; i++ {
+				request := protocol.CreateRequestCommand(code.GET_TOPIC_STATS_INFO, topicStatsInfoRequestHeader)
+				request.Body = body
+				err := remotingClient.InvokeAsync(addr, request, 3000, func(responseFuture *remoting.ResponseFuture) {
+					response := responseFuture.GetRemotingCommand()
+					if response == nil {
+						atomic.AddUint64(&failed, 1)
+						if responseFuture.IsSendRequestOK() {
+							log.Printf("Send Mssage[Async] failed: send unreachable\n")
+							return
+						}
+
+						if responseFuture.IsTimeout() {
+							log.Printf("Send Mssage[Async] failed: send timeout\n")
+							return
+						}
+
+						log.Printf("Send Mssage[Async] failed: unknow reseaon\n")
+						return
+					}
+
+					if response.Code == code.SUCCESS {
+						atomic.AddUint64(&success, 1)
+						//log.Printf("Send Mssage[Async] success. response: body[%s]\n", string(response.Body))
+					} else {
+						atomic.AddUint64(&failed, 1)
+						log.Printf("Send Mssage[Async] failed: code[%d] err[%s]\n", response.Code, response.Remark)
+					}
+				})
+
+				if err != nil {
+					atomic.AddUint64(&failed, 1)
+					log.Printf("Send Mssage[Async] failed: %s\n", err)
+				}
+			}
+
+			wg.Done()
+		}()
+	}
+	wg.Wait()
+	end := time.Now()
+	spend := end.Sub(start)
+	spendTime := int(end.UnixNano() - start.UnixNano())
+	tps := total * 1000000000 / spendTime
+
+	log.Printf("Send Mssage[Async]. Time: %v, Total: %d, Success: %d, Failed: %d, Tps: %d\n", spend, total, success, failed, tps)
 }
 
 type ClientContextListener struct {
