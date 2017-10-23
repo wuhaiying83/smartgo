@@ -14,11 +14,11 @@ import (
 
 var (
 	def_producerGroupId = "producerGroupId-200" // 生产者组ID
-	def_topic           = "cloudzone123"        // topic
+	def_topic           = "cloudzone1"          // topic
 	def_tag             = "tagA"                // tags
 	def_namesrvAddr     = "10.112.68.189:9876"  // namesrv地址
-	def_threadNum       = 200                   // 线程个数
-	def_everyThreadNum  = 50000                 // 每个线程发送消息次数
+	def_threadNum       = 1000                  // 线程个数
+	def_everyThreadNum  = 5000                  // 每个线程发送消息次数
 	def_bodyDataSize    = 20                    // body数据长度
 )
 
