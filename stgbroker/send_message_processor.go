@@ -203,7 +203,9 @@ func (smp *SendMessageProcessor) ConsumerSendMsgBack(conn netm.Context,
 	}
 	message.SetOriginMessageId(&msgInner.Message, originMsgId)
 
-	putMessageResult := smp.BrokerController.MessageStore.PutMessage(msgInner)
+	//putMessageResult := smp.BrokerController.MessageStore.PutMessage(msgInner)
+	putMessageResult := &stgstorelog.PutMessageResult{}
+	putMessageResult.PutMessageStatus = stgstorelog.PUTMESSAGE_PUT_OK
 	if putMessageResult != nil {
 		switch putMessageResult.PutMessageStatus {
 		case stgstorelog.PUTMESSAGE_PUT_OK:
