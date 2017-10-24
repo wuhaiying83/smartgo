@@ -330,30 +330,30 @@ func (smp *SendMessageProcessor) SendMessage(ctx netm.Context, request *protocol
 			response.Remark = "UNKNOWN_ERROR DEFAULT"
 		}
 
-		if sendOK {
-			smp.BrokerController.brokerStatsManager.IncTopicPutNums(msgInner.Topic)
-			smp.BrokerController.brokerStatsManager.IncTopicPutSize(msgInner.Topic, putMessageResult.AppendMessageResult.WroteBytes)
-			smp.BrokerController.brokerStatsManager.IncBrokerPutNums()
-
-			response.Remark = ""
-			responseHeader.MsgId = putMessageResult.AppendMessageResult.MsgId
-			responseHeader.QueueId = queueIdInt
-			responseHeader.QueueOffset = putMessageResult.AppendMessageResult.LogicsOffset
-
-			DoResponse(ctx, request, response)
-			if smp.BrokerController.BrokerConfig.LongPollingEnable {
-				smp.BrokerController.PullRequestHoldService.notifyMessageArriving(
-					requestHeader.Topic, queueIdInt, putMessageResult.AppendMessageResult.LogicsOffset+1)
-			}
-
-			// 消息轨迹：记录发送成功的消息
-			if smp.HasSendMessageHook() {
-				mqtraceContext.MsgId = responseHeader.MsgId
-				mqtraceContext.QueueId = responseHeader.QueueId
-				mqtraceContext.QueueOffset = responseHeader.QueueOffset
-			}
-			return nil
-		}
+		//if sendOK {
+		//	smp.BrokerController.brokerStatsManager.IncTopicPutNums(msgInner.Topic)
+		//	smp.BrokerController.brokerStatsManager.IncTopicPutSize(msgInner.Topic, putMessageResult.AppendMessageResult.WroteBytes)
+		//	smp.BrokerController.brokerStatsManager.IncBrokerPutNums()
+		//
+		//	response.Remark = ""
+		//	responseHeader.MsgId = putMessageResult.AppendMessageResult.MsgId
+		//	responseHeader.QueueId = queueIdInt
+		//	responseHeader.QueueOffset = putMessageResult.AppendMessageResult.LogicsOffset
+		//
+		//	DoResponse(ctx, request, response)
+		//	if smp.BrokerController.BrokerConfig.LongPollingEnable {
+		//		smp.BrokerController.PullRequestHoldService.notifyMessageArriving(
+		//			requestHeader.Topic, queueIdInt, putMessageResult.AppendMessageResult.LogicsOffset+1)
+		//	}
+		//
+		//	// 消息轨迹：记录发送成功的消息
+		//	if smp.HasSendMessageHook() {
+		//		mqtraceContext.MsgId = responseHeader.MsgId
+		//		mqtraceContext.QueueId = responseHeader.QueueId
+		//		mqtraceContext.QueueOffset = responseHeader.QueueOffset
+		//	}
+		//	return nil
+		//}
 
 	} else {
 		response.Code = code.SYSTEM_ERROR
