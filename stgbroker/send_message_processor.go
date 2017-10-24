@@ -294,7 +294,9 @@ func (smp *SendMessageProcessor) SendMessage(ctx netm.Context, request *protocol
 		}
 	}
 
-	putMessageResult := smp.BrokerController.MessageStore.PutMessage(msgInner)
+	//putMessageResult := smp.BrokerController.MessageStore.PutMessage(msgInner)
+	putMessageResult := &stgstorelog.PutMessageResult{}
+	putMessageResult.PutMessageStatus = stgstorelog.PUTMESSAGE_PUT_OK
 	if putMessageResult != nil {
 		sendOK := false
 		switch putMessageResult.PutMessageStatus {
