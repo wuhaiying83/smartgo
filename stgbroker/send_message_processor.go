@@ -330,7 +330,7 @@ func (smp *SendMessageProcessor) SendMessage(ctx netm.Context, request *protocol
 			response.Remark = "UNKNOWN_ERROR DEFAULT"
 		}
 
-		//if sendOK {
+		if sendOK {
 		//	smp.BrokerController.brokerStatsManager.IncTopicPutNums(msgInner.Topic)
 		//	smp.BrokerController.brokerStatsManager.IncTopicPutSize(msgInner.Topic, putMessageResult.AppendMessageResult.WroteBytes)
 		//	smp.BrokerController.brokerStatsManager.IncBrokerPutNums()
@@ -353,7 +353,7 @@ func (smp *SendMessageProcessor) SendMessage(ctx netm.Context, request *protocol
 		//		mqtraceContext.QueueOffset = responseHeader.QueueOffset
 		//	}
 		//	return nil
-		//}
+		}
 
 	} else {
 		response.Code = code.SYSTEM_ERROR
