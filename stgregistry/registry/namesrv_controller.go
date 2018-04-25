@@ -12,7 +12,7 @@ import (
 )
 
 // DefaultNamesrvController 注意循环引用
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/6
 type DefaultNamesrvController struct {
 	NamesrvConfig             *namesrv.NamesrvConfig          // namesrv配置项
@@ -25,7 +25,7 @@ type DefaultNamesrvController struct {
 }
 
 // NewNamesrvController 初始化默认的NamesrvController
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/12
 func NewNamesrvController(namesrvConfig *namesrv.NamesrvConfig, remotingServer *remoting.DefalutRemotingServer) *DefaultNamesrvController {
 	controller := &DefaultNamesrvController{
@@ -40,7 +40,7 @@ func NewNamesrvController(namesrvConfig *namesrv.NamesrvConfig, remotingServer *
 }
 
 // initialize 初始化NamesrvController必要的资源
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/14
 func (self *DefaultNamesrvController) initialize() bool {
 	// (1)加载kvConfig.json至KVConfigManager的configTable，即持久化转移到内存
@@ -63,7 +63,7 @@ func (self *DefaultNamesrvController) initialize() bool {
 }
 
 // shutdown 关闭NamesrvController控制器
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/14
 func (self *DefaultNamesrvController) shutdown() {
 	begineTime := stgcommon.GetCurrentTimeMillis()
@@ -85,7 +85,7 @@ func (self *DefaultNamesrvController) shutdown() {
 }
 
 // startNamesrvController 启动Namesrv控制服务
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/14
 func (self *DefaultNamesrvController) startNamesrvController() error {
 	self.RemotingServer.Start()
@@ -93,7 +93,7 @@ func (self *DefaultNamesrvController) startNamesrvController() error {
 }
 
 // registerProcessor 注册默认的请求处理器
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/14
 func (self *DefaultNamesrvController) registerProcessor() error {
 	processor := NewDefaultRequestProcessor(self)
@@ -102,7 +102,7 @@ func (self *DefaultNamesrvController) registerProcessor() error {
 }
 
 // startScheduledExecutorService 启动ScheduledExecutorService任务
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/14
 func (self *DefaultNamesrvController) startScheduledExecutorService() {
 	go func() {
@@ -117,14 +117,14 @@ func (self *DefaultNamesrvController) startScheduledExecutorService() {
 }
 
 // registerContextListener 注册监听器，监听broker对应的net.conn连接的Close()、Idel()、Error()等状态变化
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/18
 func (self *DefaultNamesrvController) registerContextListener() {
 	self.RemotingServer.RegisterContextListener(self.BrokerHousekeepingService)
 }
 
 // registerShutdownHook 注册Shutdown钩子
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/29
 func (self *DefaultNamesrvController) registerShutdownHook(stopChan chan bool) {
 	logger.Info("register NamesrvController.ShutdownHook() successful")

@@ -34,7 +34,7 @@ func NewSubscriptionGroupConfig() *SubscriptionGroupConfig {
 }
 
 // ToString 打印SubscriptionGroupConfig结构体数据
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/10/13
 func (self *SubscriptionGroupConfig) ToString() string {
 	if self == nil {

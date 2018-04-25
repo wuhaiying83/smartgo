@@ -95,7 +95,7 @@ func IsWindowsOS() bool {
 }
 
 // MillsTime2String 将毫秒时间转为字符时间
-// Author: rongzhihong, <rongzhihong@gome.com.cn>
+// Author: rongzhihong
 // Since: 2017/9/19
 func MilliTime2String(millisecond int64) string {
 	secondTime := millisecond / 1000
@@ -107,7 +107,7 @@ var blankReg = regexp.MustCompile(`\S+?`)
 var numberReg = regexp.MustCompile(`^[0-9]+?$`)
 
 // IsBlank 是否为空:false:不为空, true:为空
-// Author: rongzhihong, <rongzhihong@gome.com.cn>
+// Author: rongzhihong
 // Since: 2017/9/19
 func IsBlank(content string) bool {
 	if blankReg.FindString(content) != "" {
@@ -117,7 +117,7 @@ func IsBlank(content string) bool {
 }
 
 // IsEmpty 校验字符串是否为空
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/10/20
 func IsEmpty(content string) bool {
 	if len(content) == 0 || content == "" || strings.TrimSpace(content) == "" {
@@ -127,14 +127,14 @@ func IsEmpty(content string) bool {
 }
 
 // IsNumber 是否是数字:true:是, false:否
-// Author: rongzhihong, <rongzhihong@gome.com.cn>
+// Author: rongzhihong
 // Since: 2017/9/19
 func IsNumber(content string) bool {
 	return numberReg.MatchString(content)
 }
 
 // Encode Json Encode
-// Author: rongzhihong, <rongzhihong@gome.com.cn>
+// Author: rongzhihong
 // Since: 2017/9/19
 func Encode(v interface{}) []byte {
 	value, err := ffjson.Marshal(v)
@@ -146,14 +146,14 @@ func Encode(v interface{}) []byte {
 }
 
 // Decode Json Decode
-// Author: rongzhihong, <rongzhihong@gome.com.cn>
+// Author: rongzhihong
 // Since: 2017/9/19
 func Decode(data []byte, v interface{}) error {
 	return ffjson.Unmarshal(data, v)
 }
 
 // IsItTimeToDo
-// Author: zhoufei, <zhoufei17@gome.com.cn>
+// Author: zhoufei
 // Since: 2017/10/13
 func IsItTimeToDo(when string) bool {
 	whiles := strings.Split(when, ";")

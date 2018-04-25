@@ -19,14 +19,14 @@ import (
 )
 
 // DefaultRequestProcessor NameServer网络请求处理结构体
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/6
 type DefaultRequestProcessor struct {
 	NamesrvController *DefaultNamesrvController
 }
 
 // NewDefaultRequestProcessor 初始化NameServer网络请求处理
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/6
 func NewDefaultRequestProcessor(controller *DefaultNamesrvController) remoting.RequestProcessor {
 	requestProcessor := &DefaultRequestProcessor{
@@ -36,7 +36,7 @@ func NewDefaultRequestProcessor(controller *DefaultNamesrvController) remoting.R
 }
 
 // ProcessRequest 默认请求处理器
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/6
 func (self *DefaultRequestProcessor) ProcessRequest(ctx netm.Context, request *protocol.RemotingCommand) (*protocol.RemotingCommand, error) {
 	logger.Info("receive request. %s,  %s", ctx.ToString(), request.ToString())
@@ -91,7 +91,7 @@ func (self *DefaultRequestProcessor) ProcessRequest(ctx netm.Context, request *p
 }
 
 // registerBrokerWithFilterServer 注册新版本Broker，数据都是持久化的，如果存在则覆盖配置
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/6
 func (self *DefaultRequestProcessor) registerBrokerWithFilterServer(ctx netm.Context, request *protocol.RemotingCommand) (*protocol.RemotingCommand, error) {
 	defer utils.RecoveredFn()
@@ -143,7 +143,7 @@ func (self *DefaultRequestProcessor) registerBrokerWithFilterServer(ctx netm.Con
 }
 
 // getKVListByNamespace 获取指定Namespace所有的KV配置列表
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/6
 func (self *DefaultRequestProcessor) getKVListByNamespace(ctx netm.Context, request *protocol.RemotingCommand) (*protocol.RemotingCommand, error) {
 	defer utils.RecoveredFn()
@@ -169,7 +169,7 @@ func (self *DefaultRequestProcessor) getKVListByNamespace(ctx netm.Context, requ
 }
 
 // deleteTopicInNamesrv 从Namesrv删除Topic配置
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/6
 func (self *DefaultRequestProcessor) deleteTopicInNamesrv(ctx netm.Context, request *protocol.RemotingCommand) (*protocol.RemotingCommand, error) {
 	response := protocol.CreateDefaultResponseCommand()
@@ -187,7 +187,7 @@ func (self *DefaultRequestProcessor) deleteTopicInNamesrv(ctx netm.Context, requ
 }
 
 // getAllTopicListFromNamesrv 从Name Server获取全部Topic列表
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/6
 func (self *DefaultRequestProcessor) getAllTopicListFromNamesrv(ctx netm.Context, request *protocol.RemotingCommand) (*protocol.RemotingCommand, error) {
 	response := protocol.CreateDefaultResponseCommand()
@@ -199,7 +199,7 @@ func (self *DefaultRequestProcessor) getAllTopicListFromNamesrv(ctx netm.Context
 }
 
 // wipeWritePermOfBroker 优雅地向Broker写数据
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/6
 func (self *DefaultRequestProcessor) wipeWritePermOfBroker(ctx netm.Context, request *protocol.RemotingCommand) (*protocol.RemotingCommand, error) {
 	defer utils.RecoveredFn()
@@ -227,7 +227,7 @@ func (self *DefaultRequestProcessor) wipeWritePermOfBroker(ctx netm.Context, req
 }
 
 // getBrokerClusterInfo 获取注册到Name Server的所有Broker集群信息
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/6
 func (self *DefaultRequestProcessor) getBrokerClusterInfo(ctx netm.Context, request *protocol.RemotingCommand) (*protocol.RemotingCommand, error) {
 	defer utils.RecoveredFn()
@@ -240,7 +240,7 @@ func (self *DefaultRequestProcessor) getBrokerClusterInfo(ctx netm.Context, requ
 }
 
 // getRouteInfoByTopic 根据Topic获取BrokerName、队列数(包含读队列、写队列)，间接调用了RouteInfoManager.pickupTopicRouteData()方法来获取Broker和topic信息
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/6
 func (self *DefaultRequestProcessor) getRouteInfoByTopic(ctx netm.Context, request *protocol.RemotingCommand) (*protocol.RemotingCommand, error) {
 	defer utils.RecoveredFn()
@@ -282,7 +282,7 @@ func (self *DefaultRequestProcessor) getRouteInfoByTopic(ctx netm.Context, reque
 }
 
 // putKVConfig 向Namesrv追加KV配置
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/6
 func (self *DefaultRequestProcessor) putKVConfig(ctx netm.Context, request *protocol.RemotingCommand) (*protocol.RemotingCommand, error) {
 	defer utils.RecoveredFn()
@@ -300,7 +300,7 @@ func (self *DefaultRequestProcessor) putKVConfig(ctx netm.Context, request *prot
 }
 
 // getKVConfig 从Namesrv获取KV配置
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/6
 func (self *DefaultRequestProcessor) getKVConfig(ctx netm.Context, request *protocol.RemotingCommand) (*protocol.RemotingCommand, error) {
 	defer utils.RecoveredFn()
@@ -328,7 +328,7 @@ func (self *DefaultRequestProcessor) getKVConfig(ctx netm.Context, request *prot
 }
 
 // deleteKVConfig 从Namesrv删除KV配置
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/6
 func (self *DefaultRequestProcessor) deleteKVConfig(ctx netm.Context, request *protocol.RemotingCommand) (*protocol.RemotingCommand, error) {
 	response := protocol.CreateDefaultResponseCommand()
@@ -345,7 +345,7 @@ func (self *DefaultRequestProcessor) deleteKVConfig(ctx netm.Context, request *p
 }
 
 // registerBroker 注册旧版Broker(version < 3.0.11)
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/6
 func (self *DefaultRequestProcessor) registerBroker(ctx netm.Context, request *protocol.RemotingCommand) (*protocol.RemotingCommand, error) {
 	defer utils.RecoveredFn()
@@ -397,7 +397,7 @@ func (self *DefaultRequestProcessor) registerBroker(ctx netm.Context, request *p
 }
 
 // unRegisterBroker  卸载指定的Broker，数据都是持久化的
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/6
 func (self *DefaultRequestProcessor) unRegisterBroker(ctx netm.Context, request *protocol.RemotingCommand) (*protocol.RemotingCommand, error) {
 	defer utils.RecoveredFn()
@@ -424,7 +424,7 @@ func (self *DefaultRequestProcessor) unRegisterBroker(ctx netm.Context, request 
 }
 
 // getKVConfigByValue 通过 project 获取所有的 server ip 信息
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/6
 func (self *DefaultRequestProcessor) getKVConfigByValue(ctx netm.Context, request *protocol.RemotingCommand) (*protocol.RemotingCommand, error) {
 	defer utils.RecoveredFn()
@@ -453,7 +453,7 @@ func (self *DefaultRequestProcessor) getKVConfigByValue(ctx netm.Context, reques
 }
 
 // deleteKVConfigByValue 删除指定 project group 下的所有 server ip 信息
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/6
 func (self *DefaultRequestProcessor) deleteKVConfigByValue(ctx netm.Context, request *protocol.RemotingCommand) (*protocol.RemotingCommand, error) {
 	defer utils.RecoveredFn()
@@ -472,7 +472,7 @@ func (self *DefaultRequestProcessor) deleteKVConfigByValue(ctx netm.Context, req
 }
 
 // getTopicsByCluster 获取指定集群下的全部Topic列表
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/6
 func (self *DefaultRequestProcessor) getTopicsByCluster(ctx netm.Context, request *protocol.RemotingCommand) (*protocol.RemotingCommand, error) {
 	defer utils.RecoveredFn()
@@ -492,7 +492,7 @@ func (self *DefaultRequestProcessor) getTopicsByCluster(ctx netm.Context, reques
 }
 
 // getSystemTopicListFromNamesrv 获取所有系统内置Topic列表
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/6
 func (self *DefaultRequestProcessor) getSystemTopicListFromNamesrv(ctx netm.Context, request *protocol.RemotingCommand) (*protocol.RemotingCommand, error) {
 	defer utils.RecoveredFn()
@@ -506,7 +506,7 @@ func (self *DefaultRequestProcessor) getSystemTopicListFromNamesrv(ctx netm.Cont
 }
 
 // getUnitTopicList 获取单元化逻辑Topic列表
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/6
 func (self *DefaultRequestProcessor) getUnitTopicList(ctx netm.Context, request *protocol.RemotingCommand) (*protocol.RemotingCommand, error) {
 	response := protocol.CreateDefaultResponseCommand()
@@ -519,7 +519,7 @@ func (self *DefaultRequestProcessor) getUnitTopicList(ctx netm.Context, request 
 }
 
 // getHasUnitSubTopicList 获取含有单元化订阅组的Topic列表
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/6
 func (self *DefaultRequestProcessor) getHasUnitSubTopicList(ctx netm.Context, request *protocol.RemotingCommand) (*protocol.RemotingCommand, error) {
 	response := protocol.CreateDefaultResponseCommand()
@@ -532,7 +532,7 @@ func (self *DefaultRequestProcessor) getHasUnitSubTopicList(ctx netm.Context, re
 }
 
 // getHasUnitSubUnUnitTopicList 获取含有单元化订阅组的非单元化Topic列表
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/6
 func (self *DefaultRequestProcessor) getHasUnitSubUnUnitTopicList(ctx netm.Context, request *protocol.RemotingCommand) (*protocol.RemotingCommand, error) {
 	response := protocol.CreateDefaultResponseCommand()

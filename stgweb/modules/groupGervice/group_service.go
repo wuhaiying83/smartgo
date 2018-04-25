@@ -17,7 +17,7 @@ var (
 )
 
 // GroupService 消费组、消费进度管理器
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/7
 type GroupService struct {
 	*modules.AbstractService
@@ -25,7 +25,7 @@ type GroupService struct {
 }
 
 // Default 返回默认唯一处理对象
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/7
 func Default() *GroupService {
 	sOnce.Do(func() {
@@ -35,7 +35,7 @@ func Default() *GroupService {
 }
 
 // NewGroupGervice 初始化
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/7
 func NewGroupGervice() *GroupService {
 	return &GroupService{
@@ -45,7 +45,7 @@ func NewGroupGervice() *GroupService {
 }
 
 // GroupList 查询所有topic对应的消费组列表
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/10
 func (service *GroupService) GroupList(topic, clusterName string, limit, offset int) ([]*models.ConsumerGroupVo, int64, error) {
 	defer utils.RecoveredFn()
@@ -83,7 +83,7 @@ func (service *GroupService) GroupList(topic, clusterName string, limit, offset 
 }
 
 // connectionOnlineListPaging 分页获取
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/7/14
 func (service *GroupService) consumerGroupPaging(total int64, limit, offset int, list []*models.ConsumerGroupVo) []*models.ConsumerGroupVo {
 	if total <= int64(limit) {
@@ -109,7 +109,7 @@ func (service *GroupService) consumerGroupPaging(total int64, limit, offset int,
 }
 
 // GroupList 查询所有topic对应的消费组列表
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/10
 func (service *GroupService) QueryConsumerGroupId(topic string) ([]string, error) {
 	defer utils.RecoveredFn()
@@ -130,7 +130,7 @@ func (service *GroupService) QueryConsumerGroupId(topic string) ([]string, error
 }
 
 // ConsumeProgress 查询消费进度
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/10
 func (service *GroupService) ConsumeProgressByPage(topic, clusterName, consumerGroupId string, limit, offset int) (*models.ConsumerProgress, error) {
 	progress, err := service.ConsumeProgress(topic, consumerGroupId)
@@ -146,7 +146,7 @@ func (service *GroupService) ConsumeProgressByPage(topic, clusterName, consumerG
 }
 
 // connectionOnlineListPaging 分页获取
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/7/14
 func (service *GroupService) consumeProgressPaging(total int64, limit, offset int, list []*models.ConsumerGroup) []*models.ConsumerGroup {
 	if total <= int64(limit) {
@@ -173,7 +173,7 @@ func (service *GroupService) consumeProgressPaging(total int64, limit, offset in
 }
 
 // ConsumeProgress 查询消费进度
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/10
 func (service *GroupService) ConsumeProgress(topic, consumerGroupId string) (*models.ConsumerProgress, error) {
 	defer utils.RecoveredFn()

@@ -8,7 +8,7 @@ import (
 )
 
 // General 查询云平台的概况数据
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/7
 func GeneralStats(ctx context.Context) {
 	data, err := generalService.Default().GeneralStats()

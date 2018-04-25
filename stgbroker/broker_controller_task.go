@@ -8,7 +8,7 @@ import (
 )
 
 // BrokerControllerTask broker控制器的各种任务
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/10/11
 type BrokerControllerTask struct {
 	BrokerController            *BrokerController
@@ -70,7 +70,7 @@ func (self *BrokerControllerTask) Shutdown() bool {
 }
 
 // startDeleteTopicTask 清除未使用Topic
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/10/10
 func (self *BrokerControllerTask) startDeleteTopicTask() {
 	if self.DeleteTopicTask != nil {
@@ -89,7 +89,7 @@ func (self *BrokerControllerTask) startDeleteTopicTask() {
 }
 
 // startBrokerStatsRecordTask 定时统计broker各类信息
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/10/10
 func (self *BrokerControllerTask) startBrokerStatsRecordTask() {
 	initialDelay := stgcommon.ComputNextMorningTimeMillis() - timeutil.CurrentTimeMillis()
@@ -101,7 +101,7 @@ func (self *BrokerControllerTask) startBrokerStatsRecordTask() {
 }
 
 // startPersistConsumerOffsetTask 定时写入ConsumerOffset文件
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/10/10
 func (self *BrokerControllerTask) startPersistConsumerOffsetTask() {
 	period := time.Duration(self.BrokerController.BrokerConfig.FlushConsumerOffsetInterval) * time.Millisecond
@@ -113,7 +113,7 @@ func (self *BrokerControllerTask) startPersistConsumerOffsetTask() {
 }
 
 // startScanUnSubscribedTopicTask 扫描被删除Topic，并删除该Topic对应的Offset
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/10/10
 func (self *BrokerControllerTask) startScanUnSubscribedTopicTask() {
 	self.ScanUnSubscribedTopicTask = timeutil.NewTicker(false, 10*time.Minute, 1*time.Hour, func() {
@@ -124,7 +124,7 @@ func (self *BrokerControllerTask) startScanUnSubscribedTopicTask() {
 }
 
 // startFetchNameServerAddrTask 更新Namesrv地址列表
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/10/10
 func (self *BrokerControllerTask) startFetchNameServerAddrTask() {
 	self.FetchNameServerAddrTask = timeutil.NewTicker(false, 10*time.Second, 2*time.Minute, func() {
@@ -135,7 +135,7 @@ func (self *BrokerControllerTask) startFetchNameServerAddrTask() {
 }
 
 // startSlaveSynchronizeTask 启动“Slave同步所有数据”任务
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/10/10
 func (self *BrokerControllerTask) startSlaveSynchronizeTask() {
 	self.SlaveSynchronizeTask = timeutil.NewTicker(false, 10*time.Second, 1*time.Minute, func() {
@@ -146,7 +146,7 @@ func (self *BrokerControllerTask) startSlaveSynchronizeTask() {
 }
 
 // startPrintMasterAndSlaveDiffTask 启动“输出主从偏移量差值”任务
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/10/10
 func (self *BrokerControllerTask) startPrintMasterAndSlaveDiffTask() {
 	self.PrintMasterAndSlaveDiffTask = timeutil.NewTicker(false, 10*time.Second, 1*time.Minute, func() {
@@ -160,7 +160,7 @@ func (self *BrokerControllerTask) startPrintMasterAndSlaveDiffTask() {
 }
 
 // startRegisterAllBrokerTask 注册所有Broker
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/10/10
 func (self *BrokerControllerTask) startRegisterAllBrokerTask() {
 	self.RegisterAllBrokerTask = timeutil.NewTicker(false, 10*time.Second, 30*time.Second, func() {

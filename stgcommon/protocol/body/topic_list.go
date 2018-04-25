@@ -7,7 +7,7 @@ import (
 )
 
 // TopicList topic列表
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/16
 type TopicList struct {
 	TopicList  set.Set `json:"topicList"`  // topic列表
@@ -16,7 +16,7 @@ type TopicList struct {
 }
 
 // NewTopicList 初始化
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/16
 func NewTopicList() *TopicList {
 	topicList := &TopicList{
@@ -27,7 +27,7 @@ func NewTopicList() *TopicList {
 }
 
 // TopicPlusList 拓展Topic列表
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/16
 type TopicPlusList struct {
 	TopicList        []string                      `json:"topicList"`        // topic列表
@@ -38,7 +38,7 @@ type TopicPlusList struct {
 }
 
 // NewTopicPlusList 初始化
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/16
 func NewTopicPlusList() *TopicPlusList {
 	topicPlusList := &TopicPlusList{

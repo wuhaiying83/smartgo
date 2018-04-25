@@ -18,14 +18,14 @@ var (
 )
 
 // BrokerService broker节点管理器
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/7
 type BrokerService struct {
 	*modules.AbstractService
 }
 
 // Default 返回默认唯一处理对象
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/7
 func Default() *BrokerService {
 	sOnce.Do(func() {
@@ -35,7 +35,7 @@ func Default() *BrokerService {
 }
 
 // NewBrokerService 初始化
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/7
 func NewBrokerService() *BrokerService {
 	return &BrokerService{
@@ -44,35 +44,35 @@ func NewBrokerService() *BrokerService {
 }
 
 // WipeWritePermBroker 优雅关闭Broker写权限
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/9
 func (service *BrokerService) WipeWritePermBroker() {
 
 }
 
 // SyncTopic4BrokerNode 同步业务Topic到 新集群的broker节点(常用于broker扩容场景)
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/9
 func (service *BrokerService) SyncTopicToBroker() {
 
 }
 
 // UpdateSubGroup 更新consumer消费组参数
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/9
 func (service *BrokerService) UpdateSubGroup() {
 
 }
 
 // DeleteSubGroup 删除consumer消费组参数
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/9
 func (service *BrokerService) DeleteSubGroup() {
 
 }
 
 // GetBrokerRuntimeInfo 查询broker运行状态
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/9
 func (service *BrokerService) GetBrokerRuntimeInfo() (*models.ClusterGeneralVoWapper, error) {
 	defer utils.RecoveredFn()

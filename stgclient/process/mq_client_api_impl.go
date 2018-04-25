@@ -473,7 +473,7 @@ func (impl *MQClientAPIImpl) GetProjectGroupByIp(ip string, timeoutMillis int64)
 }
 
 // GetKVConfigValue 获取配置信息
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/1
 func (impl *MQClientAPIImpl) GetKVConfigValue(namespace, key string, timeoutMillis int64) (string, error) {
 	requestHeader := &namesrv.GetKVConfigRequestHeader{Namespace: namespace, Key: key}
@@ -498,7 +498,7 @@ func (impl *MQClientAPIImpl) GetKVConfigValue(namespace, key string, timeoutMill
 }
 
 // putKVConfigValue 设置配置信息
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/1
 func (impl *MQClientAPIImpl) PutKVConfigValue(namespace, key, value string, timeoutMillis int64) error {
 	requestHeader := &namesrv.PutKVConfigRequestHeader{Namespace: namespace, Key: key, Value: value}
@@ -534,7 +534,7 @@ func (impl *MQClientAPIImpl) PutKVConfigValue(namespace, key, value string, time
 }
 
 // GetKVConfigValue 获取配置信息
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/1
 func (impl *MQClientAPIImpl) GetKVListByNamespace(namespace string, timeoutMillis int64) (*body.KVTable, error) {
 	kvTable := new(body.KVTable)

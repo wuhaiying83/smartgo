@@ -6,7 +6,7 @@ import (
 )
 
 // SmartgoBrokerConfig 启动smartgoBroker所必需的配置项
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/26
 type SmartgoBrokerConfig struct {
 	BrokerClusterName     string // 集群名称
@@ -24,7 +24,7 @@ type SmartgoBrokerConfig struct {
 }
 
 // ToString 打印smartgoBroker配置项
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/26
 func (self *SmartgoBrokerConfig) ToString() string {
 	if self == nil {
@@ -39,7 +39,7 @@ func (self *SmartgoBrokerConfig) ToString() string {
 }
 
 // IsBlank 判断配置项是否读取成功
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/26
 func (self *SmartgoBrokerConfig) IsBlank() bool {
 	return self == nil || strings.TrimSpace(self.BrokerClusterName) == "" || strings.TrimSpace(self.BrokerName) == ""

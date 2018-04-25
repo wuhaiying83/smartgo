@@ -13,7 +13,7 @@ func (header *GetConsumeStatsRequestHeader) CheckFields() error {
 }
 
 // NewGetConsumeStatsRequestHeader 初始化
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/1
 func NewGetConsumeStatsRequestHeader(consumerGroup, topic string) *GetConsumeStatsRequestHeader {
 	consumeStatsRequestHeader := &GetConsumeStatsRequestHeader{

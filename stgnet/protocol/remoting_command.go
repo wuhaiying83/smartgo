@@ -294,7 +294,7 @@ func (rc *RemotingCommand) Bytes() []byte {
 }
 
 // ToString 打印RemotingCommand对象数据
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/6
 func (self *RemotingCommand) ToString() string {
 	if self == nil {

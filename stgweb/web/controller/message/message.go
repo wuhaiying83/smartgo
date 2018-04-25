@@ -13,7 +13,7 @@ const (
 )
 
 // MessageBody 查询消息内容
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/9
 func MessageBody(ctx context.Context) {
 	msgId := strings.TrimSpace(ctx.URLParam("msgId"))
@@ -35,7 +35,7 @@ func MessageBody(ctx context.Context) {
 }
 
 // MessageTrack 查询消息消费轨迹
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/9
 func MessageTrack(ctx context.Context) {
 	msgId := strings.TrimSpace(ctx.URLParam("msgId"))
@@ -57,7 +57,7 @@ func MessageTrack(ctx context.Context) {
 }
 
 // MessageQuery 查询消息消费结果
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/9
 func MessageQuery(ctx context.Context) {
 	msgId := strings.TrimSpace(ctx.URLParam("msgId"))

@@ -7,7 +7,7 @@ import (
 )
 
 // MessageBodyVo 单独查询Body消息内容
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/7
 type MessageBodyVo struct {
 	MsgBody string `json:"msgBody"` // 消息内容
@@ -15,7 +15,7 @@ type MessageBodyVo struct {
 }
 
 // ConnectionVo 消费进程列表
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/7
 type ConnectionVo struct {
 	IP  string `json:"ip"`  // 消费进程所在的服务器IP
@@ -23,7 +23,7 @@ type ConnectionVo struct {
 }
 
 // ConsumeExtVo 消费轨迹-消费节点
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/7
 type ConsumeTrackVo struct {
 	Connection      []*ConnectionVo `json:"connection"`
@@ -33,7 +33,7 @@ type ConsumeTrackVo struct {
 }
 
 // ProduceTrackVo 消费轨迹-生产节点
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/7
 type ProduceTrackVo struct {
 	BornIp            string `json:"bornIp"`            // 消息来源IP
@@ -44,7 +44,7 @@ type ProduceTrackVo struct {
 }
 
 // TopicTrackVo 消费轨迹-topic节点
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/7
 type TopicTrackVo struct {
 	Key   string `json:"key"`   // 消息key
@@ -53,7 +53,7 @@ type TopicTrackVo struct {
 }
 
 // MessageTrackVo 消息轨迹节点
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/7
 type MessageTrackExt struct {
 	ConsumeExt []*ConsumeTrackVo `json:"consumeExt"` // 消费节点
@@ -62,7 +62,7 @@ type MessageTrackExt struct {
 }
 
 // MessageTrackVo 消息轨迹节点
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/13
 type MessageTrackExtWapper struct {
 	TrackWapper  *MessageTrackExt `json:"track"`
@@ -71,7 +71,7 @@ type MessageTrackExtWapper struct {
 }
 
 // MessageTrackVo 消息轨迹节点
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/7
 type MessageTrackBase struct {
 	MessageTrack []*MessageTrackExt `json:"track"`        // 消息消费轨迹
@@ -100,7 +100,7 @@ type MessageExtVo struct {
 }
 
 // BlotMessage 消息消费结果查询、消费轨迹
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/7
 type BlotMessage struct {
 	Base     *MessageExtVo         `json:"base"`     // 消息基础属性
@@ -109,7 +109,7 @@ type BlotMessage struct {
 }
 
 // NewMessageTrackExtWapper 初始化MessageTrackExtWapper
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/13
 func NewMessageTrackExtWapper(currentMsgId string) *MessageTrackExtWapper {
 	messageTrackExtWapper := &MessageTrackExtWapper{
@@ -120,7 +120,7 @@ func NewMessageTrackExtWapper(currentMsgId string) *MessageTrackExtWapper {
 }
 
 // NewMessageBodyVo 初始化MessageBodyVo
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/9
 func NewMessageBodyVo(msgId, msgBody string) *MessageBodyVo {
 	messageBodyVo := &MessageBodyVo{
@@ -131,7 +131,7 @@ func NewMessageBodyVo(msgId, msgBody string) *MessageBodyVo {
 }
 
 // NewBlotMessage 初始化
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/13
 func NewBlotMessage(base *MessageExtVo, messageTrack []*track.MessageTrack, msgBodyPath string) *BlotMessage {
 	blotMessage := &BlotMessage{
@@ -143,7 +143,7 @@ func NewBlotMessage(base *MessageExtVo, messageTrack []*track.MessageTrack, msgB
 }
 
 // ToMessageExtVo 转化为MessageExtVo
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/13
 func ToMessageExtVo(msg *message.MessageExt) *MessageExtVo {
 	messageExtVo := &MessageExtVo{

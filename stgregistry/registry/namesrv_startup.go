@@ -12,7 +12,7 @@ import (
 )
 
 // Startup 启动Namesrv控制器
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/14
 func Startup(stopChannel chan bool, registryPort int) *DefaultNamesrvController {
 	// 构建NamesrvController
@@ -40,7 +40,7 @@ func Startup(stopChannel chan bool, registryPort int) *DefaultNamesrvController 
 }
 
 // CreateNamesrvController 创建默认Namesrv控制器
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/15
 func CreateNamesrvController(registryPort int) *DefaultNamesrvController {
 	cfg := namesrv.NewNamesrvConfig()

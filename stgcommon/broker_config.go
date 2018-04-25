@@ -93,7 +93,7 @@ func NewDefaultBrokerConfig() *BrokerConfig {
 }
 
 // NewCustomBrokerConfig 初始化BrokerConfig（根据传入参数autoCreateTopicEnable来标记：是否自动创建Topic）
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/28
 func NewCustomBrokerConfig(cfg *SmartgoBrokerConfig) *BrokerConfig {
 	brokerConfig := NewDefaultBrokerConfig()
@@ -117,7 +117,7 @@ func NewCustomBrokerConfig(cfg *SmartgoBrokerConfig) *BrokerConfig {
 }
 
 // NewBrokerConfig 初始化BrokerConfig（默认AutoCreateTopicEnable=true）
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/28
 func NewBrokerConfig(brokerName, brokerClusterName string) *BrokerConfig {
 	brokerConfig := NewDefaultBrokerConfig()
@@ -138,7 +138,7 @@ func localHostName() string {
 }
 
 // CheckBrokerConfigAttr 校验broker启动的所必需的SmartGoHome、namesrv配置
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/22
 func (self *BrokerConfig) CheckBrokerConfigAttr(smartgoBrokerFilePath ...string) bool {
 	// 如果没有使用-c指令， 也没有设置SmartGoHome环境变量，则启动失败
@@ -178,21 +178,21 @@ func (self *BrokerConfig) CheckBrokerConfigAttr(smartgoBrokerFilePath ...string)
 }
 
 // HasReadable 校验Broker是否有读权限
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/29
 func (self *BrokerConfig) HasReadable() bool {
 	return constant.IsReadable(self.BrokerPermission)
 }
 
 // HasWriteable 校验Broker是否有写权限
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/29
 func (self *BrokerConfig) HasWriteable() bool {
 	return constant.IsWriteable(self.BrokerPermission)
 }
 
 // GetDefaultBrokerName 获取默认broker名称
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/29
 func GetDefaultBrokerName() string {
 	return defaultBrokerClusterName

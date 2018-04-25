@@ -3,7 +3,7 @@ package body
 import "github.com/shopspring/decimal"
 
 // ConsumeStatus 消费过程的统计数据
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/1
 type ConsumeStatus struct {
 	pullRT            decimal.Decimal

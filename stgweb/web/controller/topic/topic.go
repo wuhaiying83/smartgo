@@ -12,7 +12,7 @@ import (
 )
 
 // TopicList 查询所有Topic列表
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/7
 func TopicList(ctx context.Context) {
 	clusterName := strings.TrimSpace(ctx.URLParam("clusterName"))
@@ -51,7 +51,7 @@ func TopicList(ctx context.Context) {
 }
 
 // TopicStats 查询Topic存储状态
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/9
 func TopicStats(ctx context.Context) {
 	topic := strings.TrimSpace(ctx.URLParam("topic"))
@@ -82,7 +82,7 @@ func TopicStats(ctx context.Context) {
 }
 
 // CreateTopic 创建Topic
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/7
 func CreateTopic(ctx context.Context) {
 	topicVo := new(models.CreateTopic)
@@ -112,7 +112,7 @@ func CreateTopic(ctx context.Context) {
 }
 
 // UpdateTopic 更新Topic配置信息
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/9
 func UpdateTopic(ctx context.Context) {
 	topicVo := new(models.UpdateTopic)
@@ -143,7 +143,7 @@ func UpdateTopic(ctx context.Context) {
 }
 
 // DeleteTopic 删除Topic
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/9
 func DeleteTopic(ctx context.Context) {
 	topicVo := new(models.DeleteTopic)
@@ -170,7 +170,7 @@ func DeleteTopic(ctx context.Context) {
 }
 
 // TopicRoute 查询Topic路由信息
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/9
 func TopicRoute(ctx context.Context) {
 	clusterName := strings.TrimSpace(ctx.URLParam("clusterName"))

@@ -149,7 +149,7 @@ const (
 
 // versionTable 获取MQ版本号对应表
 // 	key:版本标识(枚举的ordinal值), value:版本描述信息(枚举的name值)
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/6
 var versionTable = map[int]string{
 	0:   "v3.0.0.SNAPSHOT",
@@ -295,14 +295,14 @@ var versionTable = map[int]string{
 }
 
 // GetCurrentDesc 通过当前MQ版本描述
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/6
 func GetCurrentDesc() string {
 	return GetVersionDesc(CurrentVersion)
 }
 
 // GetVersionDesc 通过MQ版本号查找对应的版本描述
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/6
 func GetVersionDesc(versionCode int) (versionDesc string) {
 	if versionDesc, ok := versionTable[versionCode]; ok {
@@ -313,7 +313,7 @@ func GetVersionDesc(versionCode int) (versionDesc string) {
 }
 
 // Value2Version 获取对应MQ版本号
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/6
 func Value2Version(versionCode int32) int {
 	return int(versionCode) // 可以直接使用

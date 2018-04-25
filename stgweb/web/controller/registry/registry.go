@@ -8,7 +8,7 @@ import (
 )
 
 // QueryNamesrvAddrs 查询namesrv节点
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/9
 func QueryNamesrvAddrs(ctx context.Context) {
 	data, err := clusterService.Default().GetNamesrvNodes()

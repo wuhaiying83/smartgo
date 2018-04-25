@@ -16,7 +16,7 @@ type GroupList struct {
 }
 
 // NewGroupList 初始化
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/1
 func NewGroupList() *GroupList {
 	groupList := new(GroupList)
@@ -26,7 +26,7 @@ func NewGroupList() *GroupList {
 }
 
 // ToString 打印结构信息
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/1
 func (self *GroupList) ToString() string {
 	if self == nil || self.GroupList == nil {

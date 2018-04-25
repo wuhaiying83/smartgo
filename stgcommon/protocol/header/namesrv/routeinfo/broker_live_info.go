@@ -7,7 +7,7 @@ import (
 )
 
 // BrokerLiveInfo 活动broker存储结构
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/29
 type BrokerLiveInfo struct {
 	LastUpdateTimestamp int64
@@ -17,7 +17,7 @@ type BrokerLiveInfo struct {
 }
 
 // NewBrokerLiveInfo 初始化BrokerLiveInfo
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/29
 func NewBrokerLiveInfo(dataVersion *stgcommon.DataVersion, haServerAddr string, ctx netm.Context) *BrokerLiveInfo {
 	brokerLiveInfo := BrokerLiveInfo{
@@ -30,7 +30,7 @@ func NewBrokerLiveInfo(dataVersion *stgcommon.DataVersion, haServerAddr string, 
 }
 
 // ToString 打印BrokerLiveInfo结构体数据
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/29
 func (self *BrokerLiveInfo) ToString() string {
 	format := "BrokerLiveInfo {lastUpdateTimestamp=%d, %s, %s, haServerAddr=%s}"

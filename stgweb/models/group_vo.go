@@ -8,7 +8,7 @@ import (
 )
 
 // ConsumerGroup 消费组
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/7
 type ConsumerGroup struct {
 	BrokerOffset   int64 `json:"brokerOffset"`
@@ -18,7 +18,7 @@ type ConsumerGroup struct {
 }
 
 // ConsumerProgress 消费进度
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/7
 type ConsumerProgress struct {
 	ConsumeGroupId string           `json:"consumeGroupId"`
@@ -29,7 +29,7 @@ type ConsumerProgress struct {
 }
 
 // ConsumerGroupList 消费组列表
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/7
 type ConsumerGroupVo struct {
 	ClusterName     string    `json:"clusterName"`     // 集群名称
@@ -39,7 +39,7 @@ type ConsumerGroupVo struct {
 }
 
 // BrokerRuntimeInfo broker运行状态
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/7
 type BrokerRuntimeInfo struct {
 	BrokerVersionDesc           string  `json:"brokerVersionDesc"`
@@ -57,7 +57,7 @@ type BrokerRuntimeInfo struct {
 }
 
 // NewConsumerGroup 初始化ConsumerGroup
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/10
 func NewConsumerGroup() *ConsumerGroup {
 	consumerGroup := &ConsumerGroup{}
@@ -66,7 +66,7 @@ func NewConsumerGroup() *ConsumerGroup {
 }
 
 // ToConsumerGroup 转化为ConsumerGroup
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/10
 func ToConsumerGroup(mq *message.MessageQueue, wapper *admin.OffsetWrapper) (consumerGroup *ConsumerGroup, diff int64) {
 	consumerGroup = NewConsumerGroup()
@@ -84,7 +84,7 @@ func ToConsumerGroup(mq *message.MessageQueue, wapper *admin.OffsetWrapper) (con
 }
 
 // NewConsumerProgress 初始化
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/10
 func NewConsumerProgress(data []*ConsumerGroup, total, diffTotal int64, consumeGroupId string, tps float64) *ConsumerProgress {
 	consumerProgress := &ConsumerProgress{
@@ -98,7 +98,7 @@ func NewConsumerProgress(data []*ConsumerGroup, total, diffTotal int64, consumeG
 }
 
 // NewConsumerGroupVo 初始化ConsumerGroupVo
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/10
 func NewConsumerGroupVo(clusterName, topic, consumerGroupId string) *ConsumerGroupVo {
 	consumerGroupVo := &ConsumerGroupVo{
@@ -111,7 +111,7 @@ func NewConsumerGroupVo(clusterName, topic, consumerGroupId string) *ConsumerGro
 }
 
 // ToCluterGeneral 转化CluterGeneral
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/13
 func (self *BrokerRuntimeInfo) ToCluterGeneral(brokerAddr, brokerName string, brokerId int) *ClusterGeneral {
 	clusterGeneral := &ClusterGeneral{}

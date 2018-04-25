@@ -3,7 +3,7 @@ package body
 //import "git.oschina.net/cloudzone/smartgo/stgcommon"
 //
 //// Cluster与Topic包装器
-//// Author: tianyuliang, <tianyuliang@gome.com.cn>
+//// Author: tianyuliang
 //// Since: 2017/11/8
 //type ClusterTopicWapper struct {
 //	TopicName   string                 `json:"topicName"`   // topic名称
@@ -12,7 +12,7 @@ package body
 //}
 //
 //// NewClusterTopicWapper 初始化ClusterTopicWapper
-//// Author: tianyuliang, <tianyuliang@gome.com.cn>
+//// Author: tianyuliang
 //// Since: 2017/11/8
 //func NewClusterTopicWapper(wapper *TopicBrokerClusterWapper) *ClusterTopicWapper {
 //	clusterTopicWapper := &ClusterTopicWapper{

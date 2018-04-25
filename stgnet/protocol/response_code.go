@@ -1,7 +1,7 @@
 package protocol
 
 // ResponseCode: xxx
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/7
 const (
 	FLUSH_DISK_TIMEOUT            = 10  // Broker 刷盘超时

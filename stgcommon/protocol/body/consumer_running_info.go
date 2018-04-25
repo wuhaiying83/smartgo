@@ -16,7 +16,7 @@ const (
 )
 
 // ConsumerRunningInfo Consumer内部数据结构
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/1
 type ConsumerRunningInfo struct {
 	Properties      map[string]interface{}                      // 各种配置及运行数据

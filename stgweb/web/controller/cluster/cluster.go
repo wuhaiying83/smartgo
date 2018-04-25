@@ -9,7 +9,7 @@ import (
 )
 
 // ClusterList 查询集群节点
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/9
 func ClusterList(ctx context.Context) {
 	data, err := clusterService.Default().GetCluserNames()
@@ -23,7 +23,7 @@ func ClusterList(ctx context.Context) {
 }
 
 // ClusterGeneral 查询Broker与Cluster集群概览
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/9
 func ClusterGeneral(ctx context.Context) {
 	data, err := brokerService.Default().GetBrokerRuntimeInfo()

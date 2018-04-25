@@ -1,7 +1,7 @@
 package admin
 
 // RollbackStats 按时间回溯消费进度
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/1
 type RollbackStats struct {
 	BrokerName      string

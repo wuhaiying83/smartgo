@@ -29,7 +29,7 @@ var (
 )
 
 // Init 模块初始化
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/21
 func InitLogger(configPath string) {
 	cfgPath := configPath
@@ -48,7 +48,7 @@ func InitLogger(configPath string) {
 }
 
 // getLoggerConfigPath 获取日志配置文件路径
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/21
 func getLoggerConfigPath() (cfgPath string) {
 	// export SMARTGO_REGISTRY_CONFIG = "/home/registry/cfg.json"
@@ -70,7 +70,7 @@ func getLoggerConfigPath() (cfgPath string) {
 }
 
 // getDefaultLoggerConfig 获得默认logger配置
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/21
 func getDefaultLoggerConfig() logger.Config {
 	config := logger.Config{}
@@ -91,7 +91,7 @@ func getDefaultLoggerConfig() logger.Config {
 }
 
 // loggerType 日志保存类型：文件、控制台
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/21
 var loggerType = struct {
 	File    string // 保存文件

@@ -16,7 +16,7 @@ type RegisterBrokerResult struct {
 }
 
 // NewRegisterBrokerResult 初始化RegisterBrokerResult
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/22
 func NewRegisterBrokerResult(haServerAddr, masterAddr string) *RegisterBrokerResult {
 	result := &RegisterBrokerResult{

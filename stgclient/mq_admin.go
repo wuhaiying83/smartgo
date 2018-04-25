@@ -7,7 +7,7 @@ package stgclient
 // (2)把属于MQAdmin接口的部分方法移入MQAdminExtInner接口，用来解决包循环引用的问题
 // (3)移动的方法包括 searchOffset()、maxOffset()、minOffset()、earliestMsgStoreTime()、viewMessage()、queryMessage()
 //
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/2
 type MQAdmin interface {
 

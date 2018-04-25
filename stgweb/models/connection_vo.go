@@ -7,7 +7,7 @@ import (
 )
 
 // ConnectionOnline 在线进程列表
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/7
 type ConnectionOnline struct {
 	ClusterName      string   `json:"clusterName"`      // 集群名称
@@ -20,7 +20,7 @@ type ConnectionOnline struct {
 type ConnectionOnlines []*ConnectionOnline
 
 // ConnectionDetail 在线进程详情
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/7
 type ConnectionDetail struct {
 	ConsumerOnLine *ConsumerOnLine `json:"consumer"`
@@ -28,7 +28,7 @@ type ConnectionDetail struct {
 }
 
 // ProducerOnLine 在线生产进程
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/7
 type ProducerOnLine struct {
 	ClusterName     string             `json:"clusterName"`     // 集群名称
@@ -39,7 +39,7 @@ type ProducerOnLine struct {
 }
 
 // ConsumerOnLine 在线消费进程
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/7
 type ConsumerOnLine struct {
 	ClusterName string                  `json:"clusterName"` // 集群名称
@@ -49,7 +49,7 @@ type ConsumerOnLine struct {
 }
 
 // ConsumerConnection 消费者进程
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/7/14
 type ConsumerConnectionVo struct {
 	ConsumerGroupId     string                 `json:"consumerGroupId"`     // 消费者组ID
@@ -96,7 +96,7 @@ func (self ConnectionOnlines) Len() int {
 }
 
 // NewConnectionOnline 初始化ConnectionOnline
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/10
 func NewConnectionOnline(clusterName, topic string, consumerGroupIds []string, consumeNums, produceNums int) *ConnectionOnline {
 	connectionOnline := &ConnectionOnline{
@@ -110,7 +110,7 @@ func NewConnectionOnline(clusterName, topic string, consumerGroupIds []string, c
 }
 
 // ToSubscribeTopicTables 消费者订阅Topic列表
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/7/14
 func ToSubscribeTopicTables(cc *body.ConsumerConnectionPlus) (subscribeTables []*SubscribeTopicTable) {
 	subscribeTables = make([]*SubscribeTopicTable, 0)
@@ -134,7 +134,7 @@ func ToSubscribeTopicTables(cc *body.ConsumerConnectionPlus) (subscribeTables []
 }
 
 // ToConsumerConnectionVo 转化为消费进程对象
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/7/14
 func ToConsumerConnectionVo(c *body.Connection, cc *body.ConsumerConnectionPlus, progress *ConsumerProgress, consumerGroupId string) *ConsumerConnectionVo {
 	consumerConnectionVo := &ConsumerConnectionVo{
@@ -156,7 +156,7 @@ func ToConsumerConnectionVo(c *body.Connection, cc *body.ConsumerConnectionPlus,
 }
 
 // String 打印SubscribeTopicTable数据
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/16
 func (s *SubscribeTopicTable) String() string {
 	format := "SubscribeTopicTable {topic=%s, tags=%s, tagsSet=[%v], codeSet=[%v], classFilterMode=%t, subVersion=%d}"

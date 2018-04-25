@@ -43,7 +43,7 @@ func NewConsumerConnectionPlus() *ConsumerConnectionPlus {
 }
 
 // ToConsumerConnection 转化为ConsumerConnection
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/13
 func (plus *ConsumerConnectionPlus) ToConsumerConnection() *ConsumerConnection {
 	consumerConnection := &ConsumerConnection{

@@ -19,14 +19,14 @@ var (
 )
 
 // TopicService topic管理器
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/7
 type TopicService struct {
 	*modules.AbstractService
 }
 
 // Default 返回默认唯一处理对象
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/7
 func Default() *TopicService {
 	sOnce.Do(func() {
@@ -36,7 +36,7 @@ func Default() *TopicService {
 }
 
 // NewTopicService 初始化
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/7
 func NewTopicService() *TopicService {
 	return &TopicService{
@@ -45,7 +45,7 @@ func NewTopicService() *TopicService {
 }
 
 // List 查询所有Topic列表(不区分topic类型)
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/6
 func (service *TopicService) GetAllList() (topicVos []*models.TopicVo, err error) {
 	defer utils.RecoveredFn()
@@ -71,7 +71,7 @@ func (service *TopicService) GetAllList() (topicVos []*models.TopicVo, err error
 }
 
 // UpdateTopicConfig 更新Topic配置信息
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/6
 func (service *TopicService) UpdateTopicConfig(topicVo *models.UpdateTopic) error {
 	defer utils.RecoveredFn()
@@ -102,7 +102,7 @@ func (service *TopicService) UpdateTopicConfig(topicVo *models.UpdateTopic) erro
 }
 
 // DeleteTopicFromCluster 删除指定集群对应broker所属的topic
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/6
 func (service *TopicService) DeleteTopic(topic, clusterName string) error {
 	defer utils.RecoveredFn()
@@ -144,7 +144,7 @@ func (service *TopicService) DeleteTopic(topic, clusterName string) error {
 }
 
 // CreateTopic 创建Topic
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/6
 func (service *TopicService) CreateTopic(t *models.CreateTopic) error {
 	defer utils.RecoveredFn()
@@ -166,7 +166,7 @@ func (service *TopicService) CreateTopic(t *models.CreateTopic) error {
 }
 
 // QueryTopicRoute 查询topic路由信息
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/6
 func (service *TopicService) QueryTopicRoute(topic, clusterName string) (*route.TopicRouteData, error) {
 	defer utils.RecoveredFn()
@@ -182,7 +182,7 @@ func (service *TopicService) QueryTopicRoute(topic, clusterName string) (*route.
 }
 
 // FindClusterByTopic 查询Topic归属的集群名称
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/9
 func (service *TopicService) FindClusterByTopic(topic string) (string, bool, error) {
 	srcTopics, err := service.GetAllList()

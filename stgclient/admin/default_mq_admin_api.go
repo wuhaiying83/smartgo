@@ -14,7 +14,7 @@ import (
 )
 
 // DefaultMQAdminExtImpl 所有运维接口都在这里实现
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/2
 type DefaultMQAdminExtImpl struct {
 	createTopicKey   string
@@ -27,7 +27,7 @@ type DefaultMQAdminExtImpl struct {
 }
 
 // NewDefaultMQAdminExtImpl 初始化admin控制器
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/1
 func NewDefaultMQAdminExtImpl(namesrvAddr string) *DefaultMQAdminExtImpl {
 	defaultMQAdminExtImpl := &DefaultMQAdminExtImpl{}
@@ -40,7 +40,7 @@ func NewDefaultMQAdminExtImpl(namesrvAddr string) *DefaultMQAdminExtImpl {
 }
 
 // NewCustomMQAdminExtImpl 初始化admin控制器
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/1
 func NewCustomMQAdminExtImpl(rpcHook remoting.RPCHook, namesrvAddr string) *DefaultMQAdminExtImpl {
 	defaultMQAdminExtImpl := NewDefaultMQAdminExtImpl(namesrvAddr)
@@ -49,14 +49,14 @@ func NewCustomMQAdminExtImpl(rpcHook remoting.RPCHook, namesrvAddr string) *Defa
 }
 
 // GetCreateTopicKey 查询创建Topic的key值
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/6
 func (impl *DefaultMQAdminExtImpl) GetCreateTopicKey() string {
 	return impl.createTopicKey
 }
 
 // GetAdminExtGroup 查询admin管理的组名称
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/6
 func (impl *DefaultMQAdminExtImpl) GetAdminExtGroup() string {
 	return impl.adminExtGroup
@@ -76,7 +76,7 @@ func (impl *DefaultMQAdminExtImpl) checkConfig() {
 }
 
 // Start 启动Admin
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/6
 func (impl *DefaultMQAdminExtImpl) Start() error {
 	err := impl.start()
@@ -88,7 +88,7 @@ func (impl *DefaultMQAdminExtImpl) Start() error {
 }
 
 // Start 启动Admin
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/6
 func (impl *DefaultMQAdminExtImpl) start() error {
 	switch impl.serviceState {
@@ -127,7 +127,7 @@ func (impl *DefaultMQAdminExtImpl) start() error {
 }
 
 // Shutdown 关闭Admin
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/6
 func (impl *DefaultMQAdminExtImpl) Shutdown() error {
 	err := impl.shutdown()
@@ -139,7 +139,7 @@ func (impl *DefaultMQAdminExtImpl) Shutdown() error {
 }
 
 // Shutdown 关闭Admin
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/6
 func (impl *DefaultMQAdminExtImpl) shutdown() error {
 	if impl == nil || impl.mqClientInstance == nil {
@@ -162,7 +162,7 @@ func (impl *DefaultMQAdminExtImpl) shutdown() error {
 }
 
 // registerAdminExt 注册Admin控制对象
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/6
 func (impl *DefaultMQAdminExtImpl) registerAdminExt(groupId string, mqAdminExtInner MQAdminExtInner) bool {
 	if groupId == "" || mqAdminExtInner == nil {
@@ -181,7 +181,7 @@ func (impl *DefaultMQAdminExtImpl) registerAdminExt(groupId string, mqAdminExtIn
 }
 
 // unRegisterAdminExt 卸载Admin控制对象
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/6
 func (impl *DefaultMQAdminExtImpl) unRegisterAdminExt(groupId string) (bool, error) {
 	if groupId == "" || impl.mqClientInstance == nil || impl.mqClientInstance.AdminExtTable == nil {

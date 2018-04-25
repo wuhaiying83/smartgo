@@ -20,7 +20,7 @@ var (
 )
 
 // ConnectionService 在线进程Connection管理器
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/7
 type ConnectionService struct {
 	*modules.AbstractService
@@ -29,7 +29,7 @@ type ConnectionService struct {
 }
 
 // Default 返回默认唯一处理对象
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/7
 func Default() *ConnectionService {
 	sOnce.Do(func() {
@@ -39,7 +39,7 @@ func Default() *ConnectionService {
 }
 
 // NewConnectionService 初始化Topic查询服务
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/7
 func NewConnectionService() *ConnectionService {
 	return &ConnectionService{
@@ -50,7 +50,7 @@ func NewConnectionService() *ConnectionService {
 }
 
 // ConnectionOnline
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/10
 func (service *ConnectionService) ConnectionOnline(searchTopic string, limit, offset int) ([]*models.ConnectionOnline, int64, error) {
 	defer utils.RecoveredFn()
@@ -104,7 +104,7 @@ func (service *ConnectionService) ConnectionOnline(searchTopic string, limit, of
 }
 
 // sumOnlineProducerNums 统计topic对应的在线生产进程数
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/10
 func (service *ConnectionService) sumOnlineProducerNums(topic string) ([]string, int, error) {
 	defer utils.RecoveredFn()
@@ -122,7 +122,7 @@ func (service *ConnectionService) sumOnlineProducerNums(topic string) ([]string,
 }
 
 // SumOnlineConsumerNums 统计topic对应的在线生产进程数
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/10
 func (service *ConnectionService) SumOnlineConsumerNums(topic string) (set.Set, int, error) {
 	defer utils.RecoveredFn()
@@ -164,7 +164,7 @@ func (service *ConnectionService) SumOnlineConsumerNums(topic string) (set.Set, 
 }
 
 // connectionOnlineListPaging 分页获取
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/7/14
 func (service *ConnectionService) connectionOnlineListPaging(total int64, limit, offset int, list []*models.ConnectionOnline) []*models.ConnectionOnline {
 	if total <= int64(limit) {
@@ -190,7 +190,7 @@ func (service *ConnectionService) connectionOnlineListPaging(total int64, limit,
 }
 
 // ConnectionDetail 查询在线消费进程、在线生产进程的详情
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/10
 func (service *ConnectionService) ConnectionDetail(clusterName, searchTopic string) (*models.ConnectionDetail, error) {
 
@@ -207,7 +207,7 @@ func (service *ConnectionService) ConnectionDetail(clusterName, searchTopic stri
 }
 
 // queryOnlineConsumer 查询在线消费进程详情
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/10
 func (service *ConnectionService) queryOnlineConsumer(clusterName, topic string) ([]*models.ConsumerConnectionVo, error) {
 	defer utils.RecoveredFn()

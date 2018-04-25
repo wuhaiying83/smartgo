@@ -13,14 +13,14 @@ var (
 )
 
 // ClusterService 集群Cluster管理器
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/7
 type ClusterService struct {
 	*modules.AbstractService
 }
 
 // Default 返回默认唯一处理对象
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/7
 func Default() *ClusterService {
 	sOnce.Do(func() {
@@ -30,7 +30,7 @@ func Default() *ClusterService {
 }
 
 // NewClusterService 初始化
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/7
 func NewClusterService() *ClusterService {
 	return &ClusterService{
@@ -39,7 +39,7 @@ func NewClusterService() *ClusterService {
 }
 
 // GetCluserNames 查询所有集群名称
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/8
 func (service *ClusterService) GetCluserNames() (*models.ClusterList, error) {
 	defer utils.RecoveredFn()
@@ -58,7 +58,7 @@ func (service *ClusterService) GetCluserNames() (*models.ClusterList, error) {
 }
 
 // GetNamesrvNodes 获取namesrv节点列表
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/9
 func (service *ClusterService) GetNamesrvNodes() ([]string, error) {
 	defer utils.RecoveredFn()

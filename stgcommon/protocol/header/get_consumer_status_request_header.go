@@ -14,7 +14,7 @@ func (header *GetConsumerStatusRequestHeader) CheckFields() error {
 }
 
 // NewGetConsumerStatusRequestHeader 初始化
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/6
 func NewGetConsumerStatusRequestHeader(topic, group, clientAddr string) *GetConsumerStatusRequestHeader {
 	consumerStatusRequestHeader := &GetConsumerStatusRequestHeader{

@@ -5,7 +5,7 @@ import (
 )
 
 // KVConfigSerializeWrapper KV配置的json序列化结构
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/4
 type KVConfigSerializeWrapper struct {
 	ConfigTable map[string]map[string]string `json:"configTable"` // 数据格式：Namespace[Key[Value]]
@@ -13,7 +13,7 @@ type KVConfigSerializeWrapper struct {
 }
 
 // NewKVConfigSerializeWrapper 初始化KV配置
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/4
 func NewKVConfigSerializeWrapper(configTable map[string]map[string]string) *KVConfigSerializeWrapper {
 	kvConfigWrapper := &KVConfigSerializeWrapper{

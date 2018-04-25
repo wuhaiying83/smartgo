@@ -6,7 +6,7 @@ import (
 )
 
 // WipeWritePermOfBrokerRequestHeader 优雅地向Broker写数据-请求头
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/4
 type WipeWritePermOfBrokerRequestHeader struct {
 	BrokerName string // broker名称

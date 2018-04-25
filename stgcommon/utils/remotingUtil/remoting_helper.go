@@ -27,7 +27,7 @@ func ParseChannelRemoteAddr(conn netm.Context) string {
 }
 
 // 关闭指定的Channel通道，关闭完成后打印日志
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/18
 func CloseChannel(ctx netm.Context) {
 	if ctx == nil {

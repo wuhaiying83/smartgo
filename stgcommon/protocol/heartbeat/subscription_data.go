@@ -30,7 +30,7 @@ type SubscriptionDataPlus struct {
 }
 
 // ToString 格式化订阅信息结构体的内容
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/6
 func (self *SubscriptionData) ToString() string {
 	if self == nil {
@@ -41,7 +41,7 @@ func (self *SubscriptionData) ToString() string {
 }
 
 // ToString 格式化订阅信息结构体的内容
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/6
 func (self *SubscriptionDataPlus) ToString() string {
 	if self == nil {

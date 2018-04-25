@@ -113,7 +113,7 @@ func (table *TopicConfigTable) PutAll(topicConfigTable map[string]*stgcommon.Top
 }
 
 // ToString 打印TopicConfigTable结构体的数据
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/10/3
 func (self *TopicConfigTable) ToString() string {
 	if self == nil || self.TopicConfigs == nil || self.Size() == 0 {

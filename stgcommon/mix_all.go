@@ -105,7 +105,7 @@ func UnixNano() int64 {
 }
 
 // GetCurrentTimeMillis 得到当前时间的毫秒数
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/6
 func GetCurrentTimeMillis() (currentTimeMillis int64) {
 	currentTimeMillis = time.Now().UnixNano() / int64(time.Millisecond)
@@ -119,7 +119,7 @@ func GetCurrentTimeMillis() (currentTimeMillis int64) {
 //
 // (2)FormatTimestamp(1505716870921) 	==> 2017/9/18 14:41:10.921
 //
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/18
 func FormatTimestamp(stamp int64) string {
 	// 普通日期转为秒级时间戳,长度10位(eg. 2017/9/18 14:41:10 ==> 1505716870)
@@ -216,7 +216,7 @@ func CreateFile(fileFullName string) (bool, error) {
 }
 
 // ExistsDir 校验文件是否存在
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/15
 func ExistsDir(fileFullPath string) (bool, error) {
 	fileinfo, err := os.Stat(fileFullPath)
@@ -231,7 +231,7 @@ func ExistsDir(fileFullPath string) (bool, error) {
 }
 
 // ExistsFile 校验文件是否存在
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/15
 func ExistsFile(fileFullPath string) (bool, error) {
 	fileinfo, err := os.Stat(fileFullPath)
@@ -245,28 +245,28 @@ func ExistsFile(fileFullPath string) (bool, error) {
 }
 
 // GetGoPath 获取GoPath路径
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/27
 func GetGoPath() string {
 	return strings.TrimSpace(os.Getenv("GOPATH"))
 }
 
 // GetNamesrvAddr 获取环境变量“NAMESRV_ADDR”的值
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/27
 func GetNamesrvAddr() string {
 	return strings.TrimSpace(os.Getenv(NAMESRV_ADDR_ENV))
 }
 
 // GetNamesrvPort 获取环境变量“NAMESRV_PORT”的值
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/27
 func GetNamesrvPort() string {
 	return strings.TrimSpace(os.Getenv(NAMESRV_PORT_ENV))
 }
 
 // GetSmartGoHome 获取环境变量“SMARTGO_HOME”的值
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/27
 func GetSmartGoHome() string {
 	return strings.TrimSpace(os.Getenv(SMARTGO_HOME_ENV))
@@ -278,7 +278,7 @@ func GetSmartGoHome() string {
 // 	(1)一台服务器，启动多个broker，因此就需要环境变量“SMARTGO_DATA_PATH”来区别每个broker的数据目录
 //  (2)如果配置了环境变量“SMARTGO_DATA_PATH”，那么user.Current().HomeDir的路径会被覆盖
 //
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/27
 func GetUserHomeDir() string {
 	storePathRootDir := strings.TrimSpace(os.Getenv(SMARTGO_DATA_PATH_ENV))
@@ -291,14 +291,14 @@ func GetUserHomeDir() string {
 }
 
 // GetSmartRegistryConfig 获取环境变量“SMARTGO_REGISTRY_CONFIG”的值
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/27
 func GetSmartRegistryConfig() string {
 	return strings.TrimSpace(os.Getenv(SMARTGO_REGISTRY_CONFIG_ENV))
 }
 
 // GetSmartgoConfigDir 为了IDEA开发调试，得到当前项目conf配置项路径,路径末尾带上"/"字符
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/27
 func GetSmartgoConfigDir(config ...interface{}) string {
 	gopath := GetGoPath()
@@ -313,7 +313,7 @@ func GetSmartgoConfigDir(config ...interface{}) string {
 }
 
 // CheckIpAndPort 校验ip:port是否有效
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/27
 func CheckIpAndPort(addr string) bool {
 	if addr == "" {
@@ -333,7 +333,7 @@ func CheckIpAndPort(addr string) bool {
 }
 
 // ParseClientAddr 转化客户端地址
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/27
 func ParseClientAddr(clientAddr string) (ip string, pid int) {
 	if clientAddr == "" {

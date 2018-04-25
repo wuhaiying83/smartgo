@@ -22,7 +22,7 @@ var (
 const ()
 
 // MessageService 消息Message管理器
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/7
 type MessageService struct {
 	*modules.AbstractService
@@ -30,7 +30,7 @@ type MessageService struct {
 }
 
 // Default 返回默认唯一对象
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/7
 func Default() *MessageService {
 	sOnce.Do(func() {
@@ -40,7 +40,7 @@ func Default() *MessageService {
 }
 
 // NewMessageService 初始化
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/7
 func NewMessageService() *MessageService {
 	return &MessageService{
@@ -50,7 +50,7 @@ func NewMessageService() *MessageService {
 }
 
 // QueryMsgBody 查询消息Body内容
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/9
 func (service *MessageService) QueryMsgBody(msgId string) (*models.MessageBodyVo, error) {
 	defer utils.RecoveredFn()
@@ -85,7 +85,7 @@ func (service *MessageService) QueryMsgBody(msgId string) (*models.MessageBodyVo
 }
 
 // writeMsgBody 将消息body内容写入指定的目录
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/9
 func (service *MessageService) writeMsgBody(msgBodyPath string, msgbody []byte) (int, error) {
 	defer utils.RecoveredFn()
@@ -93,7 +93,7 @@ func (service *MessageService) writeMsgBody(msgBodyPath string, msgbody []byte) 
 }
 
 // writeMsgBody 将消息body内容写入指定的目录
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/9
 func (service *MessageService) readMsgBody(msgBodyPath string) (string, error) {
 	defer utils.RecoveredFn()
@@ -104,7 +104,7 @@ func (service *MessageService) readMsgBody(msgBodyPath string) (string, error) {
 }
 
 // QueryMsg 查询消息结果
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/9
 func (service *MessageService) QueryMsg(msgId string) (*models.BlotMessage, error) {
 	defer utils.RecoveredFn()
@@ -134,7 +134,7 @@ func (service *MessageService) QueryMsg(msgId string) (*models.BlotMessage, erro
 }
 
 // QueryMsg 查询消息结果
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/9
 func (service *MessageService) MessageTrack(msgId string) (*models.MessageTrackExtWapper, error) {
 	defer utils.RecoveredFn()
@@ -224,7 +224,7 @@ func (service *MessageService) MessageTrack(msgId string) (*models.MessageTrackE
 }
 
 // getMsgBodyPath 获取消息内容的拓展存储路径
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/13
 func (service *MessageService) getMsgBodyPath(msgId string) string {
 	msgBodyPath := stgcommon.MSG_BODY_DIR + msgId

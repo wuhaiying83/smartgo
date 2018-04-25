@@ -10,7 +10,7 @@ import (
 )
 
 // ConsumeProgress 查询消费进度
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/9
 func ConsumeProgress(ctx context.Context) {
 	topic := strings.TrimSpace(ctx.URLParam("topic"))
@@ -60,7 +60,7 @@ func ConsumeProgress(ctx context.Context) {
 }
 
 // GroupList 查询消费组列表
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/9
 func GroupList(ctx context.Context) {
 	topic := strings.TrimSpace(ctx.URLParam("topic"))

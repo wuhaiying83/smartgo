@@ -8,7 +8,7 @@ import (
 )
 
 // GetTopicList 根据Topic类型，获取所有Topic
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/6
 func (service *TopicService) GetTopicList(clusterName, topicPrefix string, extra bool, topicType, limit, offset int) ([]*models.TopicVo, int64, error) {
 	defer utils.RecoveredFn()
@@ -26,7 +26,7 @@ func (service *TopicService) GetTopicList(clusterName, topicPrefix string, extra
 }
 
 // GetTopicByType 查询指定类型的topic
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/8
 func (service *TopicService) GetTopicByParam(topicType int, prefix string, srcTopics []*models.TopicVo) (destTopics []*models.TopicVo) {
 	// 查询所有Topic，不过滤
@@ -54,7 +54,7 @@ func (service *TopicService) GetTopicByParam(topicType int, prefix string, srcTo
 }
 
 // topicVoListPaging 分页获取
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/7/14
 func (service *TopicService) topicVoListPaging(total, limit, offset int, list []*models.TopicVo) []*models.TopicVo {
 	if total <= limit {

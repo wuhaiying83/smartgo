@@ -12,7 +12,7 @@ func (header *GetTopicStatsInfoRequestHeader) CheckFields() error {
 }
 
 // NewGetTopicStatsInfoRequestHeader 初始化
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/6
 func NewGetTopicStatsInfoRequestHeader(topic string) *GetTopicStatsInfoRequestHeader {
 	topicStatsInfoRequestHeader := &GetTopicStatsInfoRequestHeader{

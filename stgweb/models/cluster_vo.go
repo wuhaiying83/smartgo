@@ -1,7 +1,7 @@
 package models
 
 // ClusterGeneral Cluster详情
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/7
 type ClusterGeneral struct {
 	InTotalToday  int64     `json:"inTotalToday"`  // 今天发送的消息数
@@ -19,7 +19,7 @@ type ClusterGeneral struct {
 }
 
 // ClusterGeneralVo Cluster集群列表
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/7
 type ClusterGeneralVo struct {
 	BrokerGeneral []*ClusterGeneral `json:"brokerGeneral"` // broker节点
@@ -28,14 +28,14 @@ type ClusterGeneralVo struct {
 }
 
 // ClusterGeneralVoWapper Cluster集群列表包装器
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/13
 type ClusterGeneralVoWapper struct {
 	ClusterGeneralVo []*ClusterGeneralVo `json:"clusters"`
 }
 
 // ClusterList Cluster列表
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/7
 type ClusterList struct {
 	ClusterNames []string `json:"clusterNames"`
@@ -46,7 +46,7 @@ type ResultVo struct {
 }
 
 // ClusterGeneralVo 初始化ClusterGeneralVo
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/15
 func NewClusterGeneralVo() *ClusterGeneralVo {
 	clusterGeneralVo := &ClusterGeneralVo{
@@ -57,7 +57,7 @@ func NewClusterGeneralVo() *ClusterGeneralVo {
 }
 
 // NewClusterGeneralVoWapper 初始化ClusterGeneralVoWapper
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/15
 func NewClusterGeneralVoWapper() *ClusterGeneralVoWapper {
 	clusterGeneralVoWapper := &ClusterGeneralVoWapper{

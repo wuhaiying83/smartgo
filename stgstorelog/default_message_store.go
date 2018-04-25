@@ -688,7 +688,7 @@ func (self *DefaultMessageStore) putMessagePostionInfo(topic string, queueId int
 }
 
 // LookMessageByOffset 通过物理队列Offset，查询消息。 如果发生错误，则返回null
-// Author: zhoufei, <zhoufei17@gome.com.cn>
+// Author: zhoufei
 // Since: 2017/9/20
 func (self *DefaultMessageStore) LookMessageByOffset(commitLogOffset int64) *message.MessageExt {
 	selectResult := self.CommitLog.getMessage(commitLogOffset, 4)
@@ -718,7 +718,7 @@ func (self *DefaultMessageStore) lookMessageByOffset(commitLogOffset int64, size
 }
 
 // GetMaxOffsetInQueue 获取指定队列最大Offset 如果队列不存在，返回-1
-// Author: zhoufei, <zhoufei17@gome.com.cn>
+// Author: zhoufei
 // Since: 2017/9/20
 func (self *DefaultMessageStore) GetMaxOffsetInQueue(topic string, queueId int32) int64 {
 	logic := self.findConsumeQueue(topic, queueId)
@@ -730,7 +730,7 @@ func (self *DefaultMessageStore) GetMaxOffsetInQueue(topic string, queueId int32
 }
 
 // GetMinOffsetInQueue 获取指定队列最小Offset 如果队列不存在，返回-1
-// Author: zhoufei, <zhoufei17@gome.com.cn>
+// Author: zhoufei
 // Since: 2017/9/20
 func (self *DefaultMessageStore) GetMinOffsetInQueue(topic string, queueId int32) int64 {
 	logic := self.findConsumeQueue(topic, queueId)
@@ -742,7 +742,7 @@ func (self *DefaultMessageStore) GetMinOffsetInQueue(topic string, queueId int32
 }
 
 // CheckInDiskByConsumeOffset 判断消息是否在磁盘
-// Author: zhoufei, <zhoufei17@gome.com.cn>
+// Author: zhoufei
 // Since: 2017/9/20
 func (self *DefaultMessageStore) CheckInDiskByConsumeOffset(topic string, queueId int32, consumeOffset int64) bool {
 	consumeQueue := self.findConsumeQueue(topic, queueId)
@@ -766,7 +766,7 @@ func (self *DefaultMessageStore) CheckInDiskByConsumeOffset(topic string, queueI
 }
 
 // SelectOneMessageByOffset 通过物理队列Offset，查询消息。 如果发生错误，则返回null
-// Author: zhoufei, <zhoufei17@gome.com.cn>
+// Author: zhoufei
 // Since: 2017/9/20
 func (self *DefaultMessageStore) SelectOneMessageByOffset(commitLogOffset int64) *SelectMapedBufferResult {
 	selectResult := self.CommitLog.getMessage(commitLogOffset, 4)
@@ -780,7 +780,7 @@ func (self *DefaultMessageStore) SelectOneMessageByOffset(commitLogOffset int64)
 }
 
 // SelectOneMessageByOffsetAndSize 通过物理队列Offset、size，查询消息。 如果发生错误，则返回null
-// Author: zhoufei, <zhoufei17@gome.com.cn>
+// Author: zhoufei
 // Since: 2017/9/20
 func (self *DefaultMessageStore) SelectOneMessageByOffsetAndSize(commitLogOffset int64, msgSize int32) *SelectMapedBufferResult {
 	return self.CommitLog.getMessage(commitLogOffset, msgSize)
@@ -789,7 +789,7 @@ func (self *DefaultMessageStore) SelectOneMessageByOffsetAndSize(commitLogOffset
 // GetOffsetInQueueByTime 根据消息时间获取某个队列中对应的offset
 // 1、如果指定时间（包含之前之后）有对应的消息，则获取距离此时间最近的offset（优先选择之前）
 // 2、如果指定时间无对应消息，则返回0
-// Author: zhoufei, <zhoufei17@gome.com.cn>
+// Author: zhoufei
 // Since: 2017/9/21
 func (self *DefaultMessageStore) GetOffsetInQueueByTime(topic string, queueId int32, timestamp int64) int64 {
 	logic := self.findConsumeQueue(topic, queueId)
@@ -801,7 +801,7 @@ func (self *DefaultMessageStore) GetOffsetInQueueByTime(topic string, queueId in
 }
 
 // GetEarliestMessageTime 获取队列中最早的消息时间，如果找不到对应时间，则返回-1
-// Author: zhoufei, <zhoufei17@gome.com.cn>
+// Author: zhoufei
 // Since: 2017/9/21
 func (self *DefaultMessageStore) GetEarliestMessageTime(topic string, queueId int32) int64 {
 	logicQueue := self.findConsumeQueue(topic, queueId)
@@ -820,7 +820,7 @@ func (self *DefaultMessageStore) GetEarliestMessageTime(topic string, queueId in
 }
 
 // GetCommitLogData 数据复制使用：获取CommitLog数据
-// Author: zhoufei, <zhoufei17@gome.com.cn>
+// Author: zhoufei
 // Since: 2017/10/23
 func (self *DefaultMessageStore) GetCommitLogData(offset int64) *SelectMapedBufferResult {
 	if self.ShutdownFlag {
@@ -832,7 +832,7 @@ func (self *DefaultMessageStore) GetCommitLogData(offset int64) *SelectMapedBuff
 }
 
 // GetRuntimeInfo 获取运行时统计数据
-// Author: zhoufei, <zhoufei17@gome.com.cn>
+// Author: zhoufei
 // Since: 2017/9/21
 func (self *DefaultMessageStore) GetRuntimeInfo() map[string]string {
 	result := make(map[string]string)
@@ -863,7 +863,7 @@ func (self *DefaultMessageStore) GetRuntimeInfo() map[string]string {
 }
 
 // GetMessageStoreTimeStamp 获取队列中存储时间，如果找不到对应时间，则返回-1
-// Author: zhoufei, <zhoufei17@gome.com.cn>
+// Author: zhoufei
 // Since: 2017/9/21
 func (self *DefaultMessageStore) GetMessageStoreTimeStamp(topic string, queueId int32, offset int64) int64 {
 	logicQueue := self.findConsumeQueue(topic, queueId)
@@ -882,7 +882,7 @@ func (self *DefaultMessageStore) GetMessageStoreTimeStamp(topic string, queueId 
 }
 
 // GetMessageStoreTimeStamp 清除失效的消费队列
-// Author: zhoufei, <zhoufei17@gome.com.cn>
+// Author: zhoufei
 // Since: 2017/9/21
 func (self *DefaultMessageStore) CleanExpiredConsumerQueue() {
 	minCommitLogOffset := self.CommitLog.getMinOffset()
@@ -915,7 +915,7 @@ func (self *DefaultMessageStore) CleanExpiredConsumerQueue() {
 }
 
 // UpdateHaMasterAddress 更新HaMaster地址
-// Author: zhoufei, <zhoufei17@gome.com.cn>
+// Author: zhoufei
 // Since: 2017/9/21
 func (self *DefaultMessageStore) UpdateHaMasterAddress(newAddr string) {
 	if self.HAService != nil {
@@ -924,7 +924,7 @@ func (self *DefaultMessageStore) UpdateHaMasterAddress(newAddr string) {
 }
 
 // SlaveFallBehindMuch Slave落后Master多少byte
-// Author: zhoufei, <zhoufei17@gome.com.cn>
+// Author: zhoufei
 // Since: 2017/9/21
 func (self *DefaultMessageStore) SlaveFallBehindMuch() int64 {
 	if self.HAService != nil {
@@ -940,7 +940,7 @@ func (self *DefaultMessageStore) CleanUnusedTopic(topics []string) int32 {
 }
 
 // GetMessageIds 批量获取MessageId
-// Author: zhoufei, <zhoufei17@gome.com.cn>
+// Author: zhoufei
 // Since: 2017/9/21
 func (self *DefaultMessageStore) GetMessageIds(topic string, queueId int32, minOffset, maxOffset int64, storeHost string) map[string]int64 {
 	messageIds := make(map[string]int64)
@@ -991,14 +991,14 @@ func (self *DefaultMessageStore) GetMessageIds(topic string, queueId int32, minO
 }
 
 // GetMaxPhyOffset 获取物理队列最大offset
-// Author: zhoufei, <zhoufei17@gome.com.cn>
+// Author: zhoufei
 // Since: 2017/10/24
 func (self *DefaultMessageStore) GetMaxPhyOffset() int64 {
 	return self.CommitLog.getMaxOffset()
 }
 
 // AppendToCommitLog 向CommitLog追加数据，并分发至各个Consume Queue
-// Author: zhoufei, <zhoufei17@gome.com.cn>
+// Author: zhoufei
 // Since: 2017/10/24
 func (self *DefaultMessageStore) AppendToCommitLog(startOffset int64, data []byte) bool {
 	result := self.CommitLog.appendData(startOffset, data)

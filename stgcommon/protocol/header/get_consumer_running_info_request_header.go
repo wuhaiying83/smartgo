@@ -14,7 +14,7 @@ func (header *GetConsumerRunningInfoRequestHeader) CheckFields() error {
 }
 
 // NewGetConsumerRunningInfoRequestHeader 初始化
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/6
 func NewGetConsumerRunningInfoRequestHeader(consumerGroup, clientId string, jstackEnable bool) *GetConsumerRunningInfoRequestHeader {
 	consumerRunningInfoRequestHeader := &GetConsumerRunningInfoRequestHeader{

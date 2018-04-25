@@ -10,7 +10,7 @@ import (
 )
 
 // ConnectionOnline 查询在线消费进程、在线生产进程列表
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/9
 func ConnectionOnline(ctx context.Context) {
 	topic := strings.TrimSpace(ctx.URLParam("topic"))
@@ -33,7 +33,7 @@ func ConnectionOnline(ctx context.Context) {
 }
 
 // ConnectionDetail 查询在线消费进程、在线生产进程的详情
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/9
 func ConnectionDetail(ctx context.Context) {
 	clusterName := strings.TrimSpace(ctx.URLParam("clusterName"))

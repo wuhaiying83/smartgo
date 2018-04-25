@@ -16,7 +16,7 @@ import (
 // (1)MQ管理类接口，涉及所有与MQ管理相关的对外接口
 // (2)包括Topic创建、订阅组创建、配置修改等
 //
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/1
 type MQAdminExtInner interface {
 

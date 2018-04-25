@@ -18,12 +18,12 @@ const (
 )
 
 // TopicType topic类型
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/6
 type TopicType int
 
 // SystemTopics 默认系统Topic
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/13
 var SystemTopics = []string{
 	stgcommon.SELF_TEST_TOPIC,
@@ -34,7 +34,7 @@ var SystemTopics = []string{
 }
 
 // TopicStats topic数据的存储状态
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/6
 type TopicStats struct {
 	ClusterName    string    `json:"clusterName"`    // 集群名称
@@ -48,7 +48,7 @@ type TopicStats struct {
 }
 
 // DeleteTopic 删除Topic
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/7
 type DeleteTopic struct {
 	ClusterName string `json:"clusterName"` // 集群名称
@@ -56,7 +56,7 @@ type DeleteTopic struct {
 }
 
 // UpdateTopic 删除Topic
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/7
 type UpdateTopic struct {
 	ClusterName    string `json:"clusterName" valid:"required"` // 集群名称
@@ -69,7 +69,7 @@ type UpdateTopic struct {
 }
 
 // CreateTopic 创建Topic
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/7
 type CreateTopic struct {
 	ClusterName string `json:"clusterName" valid:"required"` // 集群名称
@@ -77,7 +77,7 @@ type CreateTopic struct {
 }
 
 // TopicVo 查询Topic列表
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/9
 type TopicVo struct {
 	TopicConfigVo *TopicConfigVo `json:"topicConfig"`
@@ -110,7 +110,7 @@ func (self TopicVos) Len() int {
 }
 
 // TopicConfigVo topic配置项
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/7
 type TopicConfigVo struct {
 	BrokerAddr     string `json:"brokerAddr"`     // broker地址
@@ -124,7 +124,7 @@ type TopicConfigVo struct {
 }
 
 // ToString 打印TopicVo结构体内容
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/9
 func (t *TopicVo) ToString() string {
 	if t == nil {
@@ -137,7 +137,7 @@ func (t *TopicVo) ToString() string {
 }
 
 // ToTopicVo 转化为TopicVo
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/9
 func ToTopicVo(wapper *body.TopicBrokerClusterWapper) *TopicVo {
 	topicVo := &TopicVo{}
@@ -159,7 +159,7 @@ func ToTopicVo(wapper *body.TopicBrokerClusterWapper) *TopicVo {
 }
 
 // ToTopicConfig 转化为stgcommon.TopicConfig
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/9
 func (t *CreateTopic) ToTopicConfig() *stgcommon.TopicConfig {
 	perm := constant.PERM_READ | constant.PERM_WRITE
@@ -169,7 +169,7 @@ func (t *CreateTopic) ToTopicConfig() *stgcommon.TopicConfig {
 }
 
 // ToTopicConfig 转化为stgcommon.TopicConfig
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/9
 func (t *UpdateTopic) ToTopicConfig() *stgcommon.TopicConfig {
 	perm := constant.PERM_READ | constant.PERM_WRITE
@@ -178,7 +178,7 @@ func (t *UpdateTopic) ToTopicConfig() *stgcommon.TopicConfig {
 }
 
 // ToString 转化为字符串
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/6
 func (topicType TopicType) ToString() string {
 	switch topicType {
@@ -194,7 +194,7 @@ func (topicType TopicType) ToString() string {
 }
 
 // ParseTopicType 转化为topic类型
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/6
 func ParseTopicType(topic string) TopicType {
 	if IsNormalTopic(topic) {
@@ -210,7 +210,7 @@ func ParseTopicType(topic string) TopicType {
 }
 
 // ToTopicStats 转化为topic状态
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/6
 func ToTopicStats(mq *message.MessageQueue, topicOffset *admin.TopicOffset, topic, clusterName string) *TopicStats {
 	topicStats := &TopicStats{
@@ -234,28 +234,28 @@ func ToTopicStats(mq *message.MessageQueue, topicOffset *admin.TopicOffset, topi
 }
 
 // IsRetryTopic 是否为重试队列的Topic
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/6
 func IsRetryTopic(topic string) bool {
 	return strings.HasPrefix(strings.TrimSpace(topic), stgcommon.RETRY_GROUP_TOPIC_PREFIX)
 }
 
 // IsDLQTopic 是否为死信队列的Topic
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/6
 func IsDLQTopic(topic string) bool {
 	return strings.HasPrefix(strings.TrimSpace(topic), stgcommon.DLQ_GROUP_TOPIC_PREFIX)
 }
 
 // IsNormalTopic 是否正常的Topic
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/6
 func IsNormalTopic(topic string) bool {
 	return !IsRetryTopic(topic) && !IsDLQTopic(topic)
 }
 
 // IsSystemTopic 是否为系统Topic
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/6
 func IsSystemTopic(topic string) bool {
 	if strings.Contains(topic, "broker-") {

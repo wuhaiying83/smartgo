@@ -15,7 +15,7 @@ func (header *CloneGroupOffsetRequestHeader) CheckFields() error {
 }
 
 // NewCloneGroupOffsetRequestHeader 初始化
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/1
 func NewCloneGroupOffsetRequestHeader(srcGroup, destGroup, topic string, isOffline bool) *CloneGroupOffsetRequestHeader {
 	cloneGroupOffsetRequestHeader := &CloneGroupOffsetRequestHeader{

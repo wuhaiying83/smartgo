@@ -19,7 +19,7 @@ var (
 )
 
 // GeneralService 首页概览处理器
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/7
 type GeneralService struct {
 	*modules.AbstractService
@@ -28,7 +28,7 @@ type GeneralService struct {
 }
 
 // Default 返回默认唯一处理对象
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/7
 func Default() *GeneralService {
 	sOnce.Do(func() {
@@ -38,7 +38,7 @@ func Default() *GeneralService {
 }
 
 // NewGeneralService 初始化
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/7
 func NewGeneralService() *GeneralService {
 	return &GeneralService{
@@ -49,7 +49,7 @@ func NewGeneralService() *GeneralService {
 }
 
 // GeneralStats 查询首页概览的统计数据
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/13
 func (service *GeneralService) GeneralStats() (*models.GeneralVo, error) {
 	// TODO: 后续考虑使用定时器统计数据
@@ -57,7 +57,7 @@ func (service *GeneralService) GeneralStats() (*models.GeneralVo, error) {
 }
 
 // getNamesrvCount 查询namesrv节点个数
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/13
 func (service *GeneralService) getNamesrvCount() (int64, error) {
 	namesrvAddr := service.ConfigureInitializer.GetNamesrvAddr()
@@ -66,7 +66,7 @@ func (service *GeneralService) getNamesrvCount() (int64, error) {
 }
 
 // getClusterAndBrokerCount 查询cluster集群个数、broker组数
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/13
 func (service *GeneralService) getClusterAndBrokerCount() (int64, int64, error) {
 	defer utils.RecoveredFn()
@@ -94,7 +94,7 @@ func (service *GeneralService) getClusterAndBrokerCount() (int64, int64, error) 
 }
 
 // getTopicCount 查询topic个数
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/13
 func (service *GeneralService) getTopicCount() (int64, error) {
 	defer utils.RecoveredFn()
@@ -112,7 +112,7 @@ func (service *GeneralService) getTopicCount() (int64, error) {
 }
 
 // getMessageCount 查询消息条数
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/13
 func (service *GeneralService) getMessageCount() (*models.GeneralStats, error) {
 	defer utils.RecoveredFn()
@@ -153,7 +153,7 @@ func (service *GeneralService) getMessageCount() (*models.GeneralStats, error) {
 }
 
 // getConsumerCount 统计在线conusmer进程个数
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/13
 func (service *GeneralService) getConsumerCount() (int64, error) {
 	defer utils.RecoveredFn()
@@ -183,7 +183,7 @@ func (service *GeneralService) getConsumerCount() (int64, error) {
 }
 
 // getProducerCount 统计在线producer进程个数
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/13
 func (service *GeneralService) getProducerCount() (int64, error) {
 	// 无法直接根据topic查询在线producer进程个数，后台处理默认值，便于页面展示
@@ -192,7 +192,7 @@ func (service *GeneralService) getProducerCount() (int64, error) {
 }
 
 // CalculationGeneralStats 统计首页概览数据
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/13
 func (service *GeneralService) CalculationGeneralStats() (*models.GeneralVo, error) {
 	generalVo := new(models.GeneralVo)

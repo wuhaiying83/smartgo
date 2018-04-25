@@ -16,7 +16,7 @@ type TopicConfigSerializeWrapper struct {
 }
 
 // NewTopicConfigSerializeWrapper 格式化
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/10/21
 func NewTopicConfigSerializeWrapper(dataVersion ...*stgcommon.DataVersion) *TopicConfigSerializeWrapper {
 	topicConfigSerializeWrapper := &TopicConfigSerializeWrapper{
@@ -32,7 +32,7 @@ func NewTopicConfigSerializeWrapper(dataVersion ...*stgcommon.DataVersion) *Topi
 }
 
 // ToString 格式化
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/10/21
 func (self *TopicConfigSerializeWrapper) ToString() string {
 	format := "TopicConfigSerializeWrapper [%s, %s]"

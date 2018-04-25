@@ -19,7 +19,7 @@ import (
 )
 
 // ViewMessage
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/9
 func (impl MQClientAPIImpl) ViewMessage(storeHost string, physicOffset uint64, timeoutMills int64) (*message.MessageExt, error) {
 	requestHeader := &header.ViewMessageRequestHeader{Offset: physicOffset}
@@ -56,14 +56,14 @@ func (impl MQClientAPIImpl) ViewMessage(storeHost string, physicOffset uint64, t
 }
 
 // CreateCustomTopic 创建指定Topic
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/1
 func (impl *MQClientAPIImpl) CreateCustomTopic(addr, defaultTopic string, topicConfig stgcommon.TopicConfig, timeoutMillis int) {
 	//todo
 }
 
 // GetTopicListFromNameServer 从Namesrv查询所有Topic列表
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/1
 func (impl *MQClientAPIImpl) GetTopicListFromNameServer(timeoutMills int64) (*body.TopicList, error) {
 	topicList := body.NewTopicList()
@@ -100,7 +100,7 @@ func (impl *MQClientAPIImpl) GetTopicListFromNameServer(timeoutMills int64) (*bo
 }
 
 // GetTopicStatsInfo 查询Topic状态信息
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/3
 func (impl *MQClientAPIImpl) GetTopicStatsInfo(brokerAddr, topic string, timeoutMillis int64) (*admin.TopicStatsTable, error) {
 	defer utils.RecoveredFn()
@@ -165,7 +165,7 @@ func (impl *MQClientAPIImpl) GetTopicStatsInfo(brokerAddr, topic string, timeout
 }
 
 // GetConsumeStats 查询消费者状态
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/3
 func (impl *MQClientAPIImpl) GetConsumeStatsByTopic(brokerAddr, consumerGroup, topic string, timeoutMillis int64) (*admin.ConsumeStats, error) {
 	consumerGroupWithProjectGroup := consumerGroup
@@ -231,14 +231,14 @@ func (impl *MQClientAPIImpl) GetConsumeStatsByTopic(brokerAddr, consumerGroup, t
 }
 
 // GetConsumeStats 查询消费者状态
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/3
 func (impl *MQClientAPIImpl) GetConsumeStats(brokerAddr, consumerGroup string, timeoutMillis int64) (*admin.ConsumeStats, error) {
 	return impl.GetConsumeStatsByTopic(brokerAddr, consumerGroup, "", timeoutMillis)
 }
 
 // GetProducerConnectionList 查询在线生产者进程信息
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/3
 func (impl *MQClientAPIImpl) GetProducerConnectionList(brokerAddr, producerGroup string, timeoutMillis int64) (*body.ProducerConnection, error) {
 	producerGroupWithProjectGroup := producerGroup
@@ -264,7 +264,7 @@ func (impl *MQClientAPIImpl) GetProducerConnectionList(brokerAddr, producerGroup
 }
 
 // GetConsumerConnectionList 查询在线消费进程列表
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/3
 func (impl *MQClientAPIImpl) GetConsumerConnectionList(brokerAddr, consumerGroup string, timeoutMillis int64) (*body.ConsumerConnectionPlus, int, error) {
 	var (
@@ -318,7 +318,7 @@ func (impl *MQClientAPIImpl) GetConsumerConnectionList(brokerAddr, consumerGroup
 }
 
 // GetBrokerRuntimeInfo 查询Broker运行时状态信息
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/3
 func (impl *MQClientAPIImpl) GetBrokerRuntimeInfo(brokerAddr string, timeoutMillis int64) (*body.KVTable, error) {
 	request := protocol.CreateRequestCommand(code.GET_BROKER_RUNTIME_INFO)
@@ -340,7 +340,7 @@ func (impl *MQClientAPIImpl) GetBrokerRuntimeInfo(brokerAddr string, timeoutMill
 }
 
 // GetBrokerClusterInfo 查询Cluster集群信息
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/3
 func (impl *MQClientAPIImpl) GetBrokerClusterInfo(timeoutMillis int64) (*body.ClusterPlusInfo, []*body.ClusterBrokerWapper, error) {
 	request := protocol.CreateRequestCommand(code.GET_BROKER_CLUSTER_INFO)
@@ -368,7 +368,7 @@ func (impl *MQClientAPIImpl) GetBrokerClusterInfo(timeoutMillis int64) (*body.Cl
 }
 
 // WipeWritePermOfBroker 关闭broker写权限
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/3
 func (impl *MQClientAPIImpl) WipeWritePermOfBroker(namesrvAddr, brokerName string, timeoutMillis int64) (int, error) {
 	requestHeader := &namesrv.WipeWritePermOfBrokerRequestHeader{BrokerName: brokerName}
@@ -393,7 +393,7 @@ func (impl *MQClientAPIImpl) WipeWritePermOfBroker(namesrvAddr, brokerName strin
 }
 
 // DeleteTopicInBroker 删除broker节点上对应的Topic
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/3
 func (impl *MQClientAPIImpl) DeleteTopicInBroker(brokerAddr, topic string, timeoutMillis int64) error {
 	topicWithProjectGroup := topic
@@ -417,7 +417,7 @@ func (impl *MQClientAPIImpl) DeleteTopicInBroker(brokerAddr, topic string, timeo
 }
 
 // DeleteTopicInNameServer 删除Namesrv维护的Topic
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/3
 func (impl *MQClientAPIImpl) DeleteTopicInNameServer(namesrvAddr, topic string, timeoutMillis int64) error {
 	topicWithProjectGroup := topic
@@ -441,7 +441,7 @@ func (impl *MQClientAPIImpl) DeleteTopicInNameServer(namesrvAddr, topic string, 
 }
 
 // DeleteSubscriptionGroup 删除订阅组信息
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/3
 func (impl *MQClientAPIImpl) DeleteSubscriptionGroup(brokerAddr, groupName string, timeoutMillis int64) error {
 	groupWithProjectGroup := groupName
@@ -465,7 +465,7 @@ func (impl *MQClientAPIImpl) DeleteSubscriptionGroup(brokerAddr, groupName strin
 }
 
 // InvokeBrokerToGetConsumerStatus 反向查找broker中的consume状态
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/3
 func (impl *MQClientAPIImpl) InvokeBrokerToGetConsumerStatus(brokerAddr, topic, group, clientAddr string, timeoutMillis int64) (map[string]map[*message.MessageQueue]int64, error) {
 	requestHeader := header.NewGetConsumerStatusRequestHeader(topic, group, clientAddr)
@@ -493,7 +493,7 @@ func (impl *MQClientAPIImpl) InvokeBrokerToGetConsumerStatus(brokerAddr, topic, 
 }
 
 // QueryTopicConsumeByWho 查询topic被那些组消费
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/3
 func (impl *MQClientAPIImpl) QueryTopicConsumeByWho(brokerAddr, topic string, timeoutMillis int64) (*body.GroupList, error) {
 	requestHeader := &header.QueryTopicConsumeByWhoRequestHeader{Topic: topic}
@@ -516,7 +516,7 @@ func (impl *MQClientAPIImpl) QueryTopicConsumeByWho(brokerAddr, topic string, ti
 }
 
 // GetTopicsByCluster 查询集群信息
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/3
 func (impl *MQClientAPIImpl) GetTopicsByCluster(clusterName string, timeoutMillis int64) (*body.TopicPlusList, error) {
 	requestHeader := &header.GetTopicsByClusterRequestHeader{Cluster: clusterName}
@@ -557,7 +557,7 @@ func (impl *MQClientAPIImpl) GetTopicsByCluster(clusterName string, timeoutMilli
 }
 
 // CleanExpiredConsumeQueue 触发清理失效的消费队列
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/6
 func (impl *MQClientAPIImpl) CleanExpiredConsumeQueue(brokerAddr string, timeoutMillis int64) (bool, error) {
 	request := protocol.CreateRequestCommand(code.CLEAN_EXPIRED_CONSUMEQUEUE)
@@ -576,7 +576,7 @@ func (impl *MQClientAPIImpl) CleanExpiredConsumeQueue(brokerAddr string, timeout
 }
 
 // GetConsumerRunningInfo 获得consumer运行时状态信息
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/3
 func (impl *MQClientAPIImpl) GetConsumerRunningInfo(brokerAddr, consumerGroup, clientId string, jstack bool, timeoutMillis int64) (*body.ConsumerRunningInfo, error) {
 	requestHeader := header.NewGetConsumerRunningInfoRequestHeader(consumerGroup, clientId, jstack)
@@ -598,7 +598,7 @@ func (impl *MQClientAPIImpl) GetConsumerRunningInfo(brokerAddr, consumerGroup, c
 }
 
 // ViewBrokerStatsData 查询broker节点自身的状态信息
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/3
 func (impl *MQClientAPIImpl) ViewBrokerStatsData(brokerAddr, statsName, statsKey string, timeoutMillis int64) (*body.BrokerStatsData, error) {
 	requestHeader := &header.ViewBrokerStatsDataRequestHeader{StatsName: statsName, StatsKey: statsKey}
@@ -623,7 +623,7 @@ func (impl *MQClientAPIImpl) ViewBrokerStatsData(brokerAddr, statsName, statsKey
 }
 
 // CloneGroupOffset 克隆消费组的偏移量
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/6
 func (impl *MQClientAPIImpl) CloneGroupOffset(brokerAddr, srcGroup, destGroup, topic string, isOffline bool, timeoutMillis int64) error {
 	requestHeader := header.NewCloneGroupOffsetRequestHeader(srcGroup, destGroup, topic, isOffline)
@@ -643,7 +643,7 @@ func (impl *MQClientAPIImpl) CloneGroupOffset(brokerAddr, srcGroup, destGroup, t
 }
 
 // ConsumeMessageDirectly
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/6
 func (impl *MQClientAPIImpl) ConsumeMessageDirectly(brokerAddr, consumerGroup, clientId, msgId string, timeoutMills int64) (*body.ConsumeMessageDirectlyResult, error) {
 	//TODO:
@@ -651,7 +651,7 @@ func (impl *MQClientAPIImpl) ConsumeMessageDirectly(brokerAddr, consumerGroup, c
 }
 
 // QueryConsumeTimeSpan
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/6
 func (impl *MQClientAPIImpl) QueryConsumeTimeSpan(brokerAddr, topic, consumerGroup string, timeoutMills int64) (set.Set, error) {
 	//TODO:
@@ -659,7 +659,7 @@ func (impl *MQClientAPIImpl) QueryConsumeTimeSpan(brokerAddr, topic, consumerGro
 }
 
 // GetNameServerAddressList 获取最新namesrv地址列表
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/6
 func (impl *MQClientAPIImpl) GetNameServerAddressList() []string {
 	return impl.DefalutRemotingClient.GetNameServerAddressList()

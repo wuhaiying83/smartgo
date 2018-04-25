@@ -9,7 +9,7 @@ import (
 )
 
 // Stats 分页查询Topic状态
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/6
 func (service *TopicService) GetTopicStats(topic string, limit, offset int) ([]*models.TopicStats, int64, error) {
 	defer utils.RecoveredFn()
@@ -55,7 +55,7 @@ func (service *TopicService) GetTopicStats(topic string, limit, offset int) ([]*
 }
 
 // topicStatsPaging 分页获取
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/7/14
 func (service *TopicService) topicStatsPaging(total, limit, offset int, list []*models.TopicStats) []*models.TopicStats {
 	if total <= limit {

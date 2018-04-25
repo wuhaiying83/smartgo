@@ -22,7 +22,7 @@ const (
 )
 
 // RouteInfoManager Topic路由管理器
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/6
 type RouteInfoManager struct {
 	TopicQueueTable   map[string][]*route.QueueData        // topic[list<QueueData>]
@@ -34,7 +34,7 @@ type RouteInfoManager struct {
 }
 
 // NewRouteInfoManager 初始化Topic路由管理器
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/6
 func NewRouteInfoManager() *RouteInfoManager {
 	routeInfoManager := &RouteInfoManager{
@@ -50,7 +50,7 @@ func NewRouteInfoManager() *RouteInfoManager {
 }
 
 // getAllClusterInfo 获得所有集群名称
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/6
 func (self *RouteInfoManager) getAllClusterInfo() []byte {
 	clusterInfo := &body.ClusterInfo{
@@ -61,7 +61,7 @@ func (self *RouteInfoManager) getAllClusterInfo() []byte {
 }
 
 // deleteTopic 删除Topic
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/6
 func (self *RouteInfoManager) deleteTopic(topic string) {
 	self.ReadWriteLock.Lock()
@@ -72,7 +72,7 @@ func (self *RouteInfoManager) deleteTopic(topic string) {
 }
 
 // getAllTopicList 获取所有Topic列表
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/6
 func (self *RouteInfoManager) getAllTopicList() []byte {
 	defer utils.RecoveredFn()
@@ -110,7 +110,7 @@ func (self *RouteInfoManager) getAllTopicList() []byte {
 // (1)如果是slave，则返回master的ha地址
 // (2)如果是master,那么返回值为空字符串
 //
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/6
 func (self *RouteInfoManager) registerBroker(clusterName, brokerAddr, brokerName string, brokerId int64, haServerAddr string, topicConfigWrapper *body.TopicConfigSerializeWrapper, filterServerList []string, ctx netm.Context) *namesrv.RegisterBrokerResult {
 	defer utils.RecoveredFn()
@@ -203,7 +203,7 @@ func (self *RouteInfoManager) registerBroker(clusterName, brokerAddr, brokerName
 }
 
 // isBrokerTopicConfigChanged 判断Topic配置信息是否发生变更
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/6
 func (self *RouteInfoManager) isBrokerTopicConfigChanged(brokerAddr string, dataVersion *stgcommon.DataVersion) bool {
 	prev, ok := self.BrokerLiveTable[brokerAddr]
@@ -218,7 +218,7 @@ func (self *RouteInfoManager) isBrokerTopicConfigChanged(brokerAddr string, data
 // 返回值:
 // 	对应Broker上待处理的Topic个数
 //
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/6
 func (self *RouteInfoManager) wipeWritePermOfBrokerByLock(brokerName string) int {
 	wipeTopicCount := 0
@@ -233,7 +233,7 @@ func (self *RouteInfoManager) wipeWritePermOfBrokerByLock(brokerName string) int
 // 返回值：
 // 	对应Broker上待处理的Topic个数
 //
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/6
 func (self *RouteInfoManager) wipeWritePermOfBroker(brokerName string) int {
 	defer utils.RecoveredFn()
@@ -269,7 +269,7 @@ func (self *RouteInfoManager) wipeWritePermOfBroker(brokerName string) int {
 // B. NameSrv也就收到3个RegisterBroker请求
 // C. 相应的该topic对应的QueueDataList里面，也就3个QueueData对象
 //
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/6
 func (self *RouteInfoManager) createAndUpdateQueueData(brokerName string, topicConfig *stgcommon.TopicConfig) {
 	defer utils.RecoveredFn()
@@ -321,7 +321,7 @@ func (self *RouteInfoManager) createAndUpdateQueueData(brokerName string, topicC
 }
 
 // unRegisterBroker 卸载Broker
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/6
 func (self *RouteInfoManager) unRegisterBroker(clusterName, brokerAddr, brokerName string, brokerId int64) {
 	defer utils.RecoveredFn()
@@ -394,7 +394,7 @@ func (self *RouteInfoManager) unRegisterBroker(clusterName, brokerAddr, brokerNa
 }
 
 // removeTopicByBrokerName 根据brokerName移除它对应的Topic数据
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/6
 func (self *RouteInfoManager) removeTopicByBrokerName(brokerName string) {
 	defer utils.RecoveredFn()
@@ -426,7 +426,7 @@ func (self *RouteInfoManager) removeTopicByBrokerName(brokerName string) {
 }
 
 // pickupTopicRouteData 收集Topic路由数据
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/6
 func (self *RouteInfoManager) pickupTopicRouteData(topic string) *route.TopicRouteData {
 	defer utils.RecoveredFn()
@@ -492,7 +492,7 @@ func (self *RouteInfoManager) pickupTopicRouteData(topic string) *route.TopicRou
 // (1)NameServer会每10s，扫描一次这个brokerLiveTable变量
 // (2)如果发现上次更新时间距离当前时间超过了2分钟，则认为此broker死亡
 //
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/6
 func (self *RouteInfoManager) scanNotActiveBroker() {
 	defer utils.RecoveredFn()
@@ -527,7 +527,7 @@ func (self *RouteInfoManager) scanNotActiveBroker() {
 }
 
 // onChannelDestroy Channel被关闭、Channel出现异常、Channe的Idle时间超时
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/6
 func (self *RouteInfoManager) onChannelDestroy(remoteAddr string, ctx netm.Context) {
 	defer utils.RecoveredFn()
@@ -641,7 +641,7 @@ func (self *RouteInfoManager) onChannelDestroy(remoteAddr string, ctx netm.Conte
 }
 
 // printAllPeriodically 定期打印当前类的数据结构(常用于业务调试)
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/6
 func (self *RouteInfoManager) printAllPeriodically() {
 	self.ReadWriteLock.RLock()
@@ -654,7 +654,7 @@ func (self *RouteInfoManager) printAllPeriodically() {
 }
 
 // printTopicQueueTable 打印self.TopicQueueTable 数据
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/6
 func (self *RouteInfoManager) printTopicQueueTable() {
 	defer utils.RecoveredFn()
@@ -678,7 +678,7 @@ func (self *RouteInfoManager) printTopicQueueTable() {
 }
 
 // printClusterAddrTable 打印self.ClusterAddrTable 数据
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/6
 func (self *RouteInfoManager) printClusterAddrTable() {
 	defer utils.RecoveredFn()
@@ -705,7 +705,7 @@ func (self *RouteInfoManager) printClusterAddrTable() {
 }
 
 // printBrokerLiveTable 打印self.BrokerLiveTable 数据
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/6
 func (self *RouteInfoManager) printBrokerLiveTable() {
 	defer utils.RecoveredFn()
@@ -725,7 +725,7 @@ func (self *RouteInfoManager) printBrokerLiveTable() {
 }
 
 // printBrokerAddrTable 打印self.BrokerAddrTable 数据
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/6
 func (self *RouteInfoManager) printBrokerAddrTable() {
 	defer utils.RecoveredFn()
@@ -745,7 +745,7 @@ func (self *RouteInfoManager) printBrokerAddrTable() {
 }
 
 // getSystemTopicList 获取系统topic列表
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/6
 func (self *RouteInfoManager) getSystemTopicList() []byte {
 	defer utils.RecoveredFn()
@@ -780,7 +780,7 @@ func (self *RouteInfoManager) getSystemTopicList() []byte {
 }
 
 // getTopicsByCluster 获取指定集群下的所有topic列表
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/6
 func (self *RouteInfoManager) getTopicsByCluster(clusterName string) []byte {
 	defer utils.RecoveredFn()
@@ -816,7 +816,7 @@ func (self *RouteInfoManager) getTopicsByCluster(clusterName string) []byte {
 }
 
 // getUnitTopics 获取单元逻辑下的所有topic列表
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/6
 func (self *RouteInfoManager) getUnitTopicList() []byte {
 	topicList := body.NewTopicList()
@@ -833,7 +833,7 @@ func (self *RouteInfoManager) getUnitTopicList() []byte {
 }
 
 // getHasUnitSubTopicList 获取中心向单元同步的所有topic列表
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/6
 func (self *RouteInfoManager) getHasUnitSubTopicList() []byte {
 	topicList := body.NewTopicList()
@@ -850,7 +850,7 @@ func (self *RouteInfoManager) getHasUnitSubTopicList() []byte {
 }
 
 // GetHasUnitSubUnUnitTopicList 获取含有单元化订阅组的 非单元化Topic列表
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/6
 func (self *RouteInfoManager) getHasUnitSubUnUnitTopicList() []byte {
 	topicList := body.NewTopicList()

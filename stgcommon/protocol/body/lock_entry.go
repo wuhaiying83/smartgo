@@ -9,7 +9,7 @@ import (
 )
 
 // LockEntry LockEntry
-// Author: rongzhihong, <rongzhihong@gome.com.cn>
+// Author: rongzhihong
 // Since: 2017/9/19
 type LockEntry struct {
 	ClientId            string

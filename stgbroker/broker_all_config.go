@@ -25,7 +25,7 @@ func NewBrokerAllConfig() *BrokerAllConfig {
 }
 
 // NewDefaultBrokerAllConfig Broker配置文件信息初始化
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/27
 func NewDefaultBrokerAllConfig(brokerConfig *stgcommon.BrokerConfig, messageStoreConfig *stgstorelog.MessageStoreConfig) *BrokerAllConfig {
 	allConfig := &BrokerAllConfig{

@@ -90,7 +90,7 @@ func (impl *DefaultMQAdminExtImpl) FetchAllTopicList() (*body.TopicList, error) 
 }
 
 // GetTopicsByCluster 根据ClusterName，查询该集群管理的所有Topic
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/8
 func (impl *DefaultMQAdminExtImpl) GetTopicsByCluster(clusterName string) ([]*body.TopicBrokerClusterWapper, error) {
 	topicBrokerClusterList := make([]*body.TopicBrokerClusterWapper, 0)
@@ -459,7 +459,7 @@ func (impl *DefaultMQAdminExtImpl) CleanExpiredConsumerQueue(clusterName string)
 }
 
 // cleanExpiredConsumerQueueByCluster 根据集群名称，清除过期的消费队列
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/6
 func (impl *DefaultMQAdminExtImpl) cleanExpiredConsumerQueueByCluster(clusterInfo *body.ClusterPlusInfo, clusterName string) (result bool, err error) {
 	if clusterInfo == nil {
@@ -608,7 +608,7 @@ func (impl *DefaultMQAdminExtImpl) MessageTrackDetail(msg *message.MessageExt) (
 //
 // return: true表示已被消费； false:表示未被消费
 //
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/6
 func (impl *DefaultMQAdminExtImpl) Consumed(msg *message.MessageExt, consumerGroupId string) (bool, error) {
 	ci, _, err := impl.ExamineBrokerClusterInfo()
@@ -733,7 +733,7 @@ func (impl *DefaultMQAdminExtImpl) MinOffset(mq *message.MessageQueue) (int64, e
 //
 // 返回值: set.Set保存所有角色是master的 brokerAddr地址,即set<brokerAddr>
 //
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/7
 func (impl *DefaultMQAdminExtImpl) FetchMasterAddrByClusterName(clusterName string) (set.Set, error) {
 	masterSet := set.NewSet()
@@ -766,7 +766,7 @@ func (impl *DefaultMQAdminExtImpl) FetchMasterAddrByClusterName(clusterName stri
 //
 // 返回值: set<brokerName>
 //
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/7
 func (impl *DefaultMQAdminExtImpl) FetchBrokerNameByClusterName(clusterName string) (set.Set, error) {
 	clusterInfoWrapper, _, err := impl.ExamineBrokerClusterInfo()
@@ -792,7 +792,7 @@ func (impl *DefaultMQAdminExtImpl) FetchBrokerNameByClusterName(clusterName stri
 //
 // 返回值: set<brokerName>
 //
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/7
 func (impl *DefaultMQAdminExtImpl) FetchBrokerNameByAddr(brokerAddr string) (string, error) {
 	clusterInfoWrapper, _, err := impl.ExamineBrokerClusterInfo()
@@ -816,7 +816,7 @@ func (impl *DefaultMQAdminExtImpl) FetchBrokerNameByAddr(brokerAddr string) (str
 }
 
 // GetClusterList 获取集群名称
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/7
 func (impl *DefaultMQAdminExtImpl) GetAllClusterNames() ([]string, map[string]*route.BrokerData, error) {
 	clusterPlus, _, err := impl.ExamineBrokerClusterInfo()
@@ -840,7 +840,7 @@ func (impl *DefaultMQAdminExtImpl) GetAllClusterNames() ([]string, map[string]*r
 }
 
 // GetClusterList 获取集群名称
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/7
 func (impl *DefaultMQAdminExtImpl) GetClusterTopicWappers() ([]*body.TopicBrokerClusterWapper, error) {
 	defer utils.RecoveredFn()
@@ -868,7 +868,7 @@ func (impl *DefaultMQAdminExtImpl) GetClusterTopicWappers() ([]*body.TopicBroker
 }
 
 // getBrokerByName 查询brokerAddr地址
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/8
 func (impl *DefaultMQAdminExtImpl) getBrokerAddrByName(brokerAddrTable map[string]*route.BrokerData, brokerName string) (int, string) {
 	if brokerAddrTable == nil || len(brokerAddrTable) == 0 {

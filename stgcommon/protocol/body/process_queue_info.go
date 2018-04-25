@@ -3,7 +3,7 @@ package body
 import "fmt"
 
 // ProcessQueueInfo 内部消费队列的信息
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/1
 type ProcessQueueInfo struct {
 	CommitOffset int64 // 消费到哪里，提交的offset
@@ -30,7 +30,7 @@ type ProcessQueueInfo struct {
 }
 
 // ToString 显示内部消费队列的信息
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/11/1
 func (p *ProcessQueueInfo) ToString() string {
 	format := "ProcessQueueInfo { commitOffset=%d"

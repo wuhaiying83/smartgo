@@ -17,7 +17,7 @@ import (
 )
 
 // Start 启动BrokerController
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/20
 func Start(stopChan chan bool, smartgoBrokerFilePath string) *BrokerController {
 	// 构建BrokerController控制器、初始化BrokerController
@@ -44,7 +44,7 @@ func Start(stopChan chan bool, smartgoBrokerFilePath string) *BrokerController {
 }
 
 // CreateBrokerController 创建BrokerController对象
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/20
 func CreateBrokerController(smartgoBrokerFilePath ...string) *BrokerController {
 	defer utils.RecoveredFn()
@@ -105,7 +105,7 @@ func CreateBrokerController(smartgoBrokerFilePath ...string) *BrokerController {
 // (2)$SMARTGO_DATA_PATH
 // (3)user.Current().HomeDir
 //
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/22
 func parseSmartgoBrokerConfig(cfgName, cfgPath string) (*stgcommon.SmartgoBrokerConfig, bool) {
 	// 读取并转化*.toml配置项的值
@@ -129,7 +129,7 @@ func parseSmartgoBrokerConfig(cfgName, cfgPath string) (*stgcommon.SmartgoBroker
 }
 
 // getSmartgoBrokerConfigName 获得启动broker的toml文件名称
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/10/16
 func getSmartgoBrokerConfigName(smartgoBrokerFilePath ...string) string {
 	defer utils.RecoveredFn()
@@ -151,7 +151,7 @@ func getSmartgoBrokerConfigName(smartgoBrokerFilePath ...string) string {
 // (3)../../conf/broker-a.toml
 // (4)$GOPATH/src/git.oschina.net/cloudzone/smartgo/conf/broker-a.toml
 //
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/10/16
 func getSmartgoBrokerConfigPath(cfgName string) string {
 	cfgPath := stgcommon.GetSmartGoHome() + "/conf/" + cfgName // 各种main()启动broker,读取环境变量对应的路径
@@ -179,7 +179,7 @@ func getSmartgoBrokerConfigPath(cfgName string) string {
 }
 
 // checkMessageStoreConfigAttr 校验messageStoreConfig配置
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/22
 func checkMessageStoreConfigAttr(mscfg *stgstorelog.MessageStoreConfig, bcfg *stgcommon.BrokerConfig) bool {
 	if mscfg.BrokerRole == config.SLAVE {
@@ -196,7 +196,7 @@ func checkMessageStoreConfigAttr(mscfg *stgstorelog.MessageStoreConfig, bcfg *st
 }
 
 // setMessageStoreConfig 设置messageStoreConfig配置
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/22
 func setMessageStoreConfig(messageStoreConfig *stgstorelog.MessageStoreConfig, brokerConfig *stgcommon.BrokerConfig, cfg *stgcommon.SmartgoBrokerConfig) error {
 	// 此处需要覆盖store模块的StorePathRootDir配置目录,用来处理一台服务器启动多个broker的场景

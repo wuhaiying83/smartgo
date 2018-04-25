@@ -6,7 +6,7 @@ import (
 )
 
 // PutKVConfigRequestHeader 向Namesrv追加KV配置-请求头
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/9/4
 type PutKVConfigRequestHeader struct {
 	Namespace string `json:"namespace"`

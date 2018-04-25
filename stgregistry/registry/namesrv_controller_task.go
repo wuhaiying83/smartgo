@@ -20,7 +20,7 @@ func NewNamesrvControllerTask(controller *DefaultNamesrvController) *NamesrvCont
 }
 
 // newScanBrokerTask 初始化ScanBrokerTask任务
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/10/11
 func (self *NamesrvControllerTask) newScanBrokerTask() {
 	self.scanBrokerTask = timeutil.NewTicker(false, 5*time.Second, 10*time.Second, func() {
@@ -29,7 +29,7 @@ func (self *NamesrvControllerTask) newScanBrokerTask() {
 }
 
 // newPrintNamesrvTask 初始化PrintNamesrvTask任务
-// Author: tianyuliang, <tianyuliang@gome.com.cn>
+// Author: tianyuliang
 // Since: 2017/10/11
 func (self *NamesrvControllerTask) newPrintNamesrvTask() {
 	self.printNamesrvTask = timeutil.NewTicker(false, 1*time.Minute, 10*time.Minute, func() {
