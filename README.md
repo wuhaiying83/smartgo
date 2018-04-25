@@ -38,10 +38,12 @@ SmartGo是能够支持主流消息队列功能及满足物联网MQTT数千万长
 * 正常组内开发人员提交代码，需要经过经过审核后方可提交（且需要有统一格式注释，参照注释类型3）
 
 
-# 原始文档请参考：smartgo/docs/doc/目录：
+### 原始文档请参考：smartgo/docs/doc/目录：
+![](https://gitee.com/cloudzone/smartgo/raw/dev/docs/static/docdetail.png)
 
 
-# SmartGo-Store技术文档说明
+
+#### SmartGo-Store技术文档说明
 
 ###
 
@@ -345,9 +347,8 @@ RocketMQ默认是使用异步刷盘。
 
 
 
-#
 
-# SmartGo-Broker 技术文档说明
+#### SmartGo-Broker 技术文档说明
 
 ###
 
@@ -716,9 +717,9 @@ Broker启动时，初始化统计服务，当Broker拉取或存储消息成功�
 
 
 
-#
 
-# BlotMQ-net技术文档说明
+
+#### BlotMQ-net技术文档说明
 
 ###
 
@@ -871,9 +872,9 @@ header和body域的数据解析后是RemotingCommand这个结构，通信时将R
 通信组件本身不处理心跳，由上层进行心跳处理。
 
 
-#
 
-# SmartGo-Registry 技术文档说明
+
+#### SmartGo-Registry 技术文档说明
 
 ###
 
@@ -1064,9 +1065,8 @@ Registry维护topic与broker对应的关系的数据结构是 TopicQueueTable，
 (3)每次客户端查询topic路由信息，只需把TopicQueueTable结构体解析，然后把broker与topic在内存中的数据结构解析即可。
 
 
-#
 
-# SmartGo-Client 技术文档说明
+#### SmartGo-Client 技术文档说明
 
 ###
 
